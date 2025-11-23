@@ -196,7 +196,7 @@ const ProjectGalaxy: React.FC = () => {
         "Adopted by leading blockchain projects"
       ],
       image:
-        "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80",
+        "/projects/blockchain-audit.png",
       github: "https://github.com/username/blockchain-audit-framework"
     },
     // Blockchain Projects
@@ -212,7 +212,7 @@ const ProjectGalaxy: React.FC = () => {
         "$5M+ TVL within first month",
         "Featured in top DeFi platforms"
       ],
-      image: "https://images.unsplash.com/photo-1620783743333-84cac92344e4?w=800&q=80", // DeFi Yield Aggregator
+      image: "/projects/defi-yield.png", // DeFi Yield Aggregator
       github: "https://github.com/username/defi-yield-aggregator",
       liveUrl: "https://yield.flexyledger.xyz"
     },
@@ -228,7 +228,7 @@ const ProjectGalaxy: React.FC = () => {
         "10,000+ monthly active users",
         "Featured in NFT industry reports"
       ],
-      image: "https://images.unsplash.com/photo-1645016808410-1facfc2a3a5f?w=800&q=80", // NFT Marketplace with AI Curation
+      image: "/projects/nft-marketplace.png", // NFT Marketplace with AI Curation
       github: "https://github.com/username/nft-ai-marketplace",
       liveUrl: "https://nft.flexyledger.xyz"
     },
@@ -244,7 +244,7 @@ const ProjectGalaxy: React.FC = () => {
         "$50M+ in cross-chain volume",
         "<1 minute transaction finality"
       ],
-      image: "https://images.unsplash.com/photo-1639765216502-3c4d9f5f5b9b?w=800&q=80", // Cross-Chain Token Bridge
+      image: "/projects/cross-chain-bridge.png", // Cross-Chain Token Bridge
       github: "https://github.com/username/cross-chain-bridge",
       liveUrl: "https://bridge.flexyledger.xyz"
     },
@@ -292,7 +292,7 @@ const ProjectGalaxy: React.FC = () => {
         "Reduced mean time to detect (MTTD) by 90%",
         "Integrated with 50+ security tools"
       ],
-      image: "https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=800&q=80",
+      image: "/projects/cloud-siem.png",
       github: "https://github.com/username/cloud-siem"
     },
     {
@@ -307,7 +307,7 @@ const ProjectGalaxy: React.FC = () => {
         "Saved $2M in potential exploits",
         "Open-sourced to community"
       ],
-      image: "https://images.unsplash.com/photo-1629904853716-f0bc51ee0b59?w=800&q=80",
+      image: "/projects/smart-contract-scanner.png",
       github: "https://github.com/username/smart-contract-audit",
     },
     {
@@ -394,18 +394,32 @@ const ProjectGalaxy: React.FC = () => {
       }}
     >
       {/* Background stars */}
-      <div className="absolute inset-0 z-0">
+      {/* Background stars and nebula */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* Nebula clouds */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent opacity-60"></div>
+        <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent opacity-60"></div>
+
+        {/* Stars */}
         {[...Array(100)].map((_, i) => (
-          <div
+          <motion.div
             key={i}
             className="absolute rounded-full bg-white"
             style={{
-              width: `${Math.random() * 2 + 1}px`,
-              height: `${Math.random() * 2 + 1}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random() * 0.8 + 0.2,
-              animation: `twinkle ${Math.random() * 5 + 3}s infinite ease-in-out`,
+              width: Math.random() * 2 + 1 + "px",
+              height: Math.random() * 2 + 1 + "px",
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+            }}
+            animate={{
+              opacity: [0.2, 1, 0.2],
+              scale: [1, 1.2, 1],
+            }}
+            transition={{
+              duration: Math.random() * 5 + 3,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: Math.random() * 5,
             }}
           />
         ))}
@@ -502,15 +516,14 @@ const ProjectGalaxy: React.FC = () => {
 
                   <div className="absolute bottom-0 left-0 right-0 p-6 z-30">
                     <Badge
-                      className={`mb-2 ${
-                        project.category === "ai"
-                          ? "bg-purple-600"
-                          : project.category === "cybersecurity"
-                            ? "bg-red-600"
-                            : project.category === "blockchain"
-                              ? "bg-blue-600"
-                              : "bg-green-600"
-                      }`}
+                      className={`mb-2 ${project.category === "ai"
+                        ? "bg-purple-600"
+                        : project.category === "cybersecurity"
+                          ? "bg-red-600"
+                          : project.category === "blockchain"
+                            ? "bg-blue-600"
+                            : "bg-green-600"
+                        }`}
                     >
                       {project.category === "ai"
                         ? "AI/ML"
@@ -567,15 +580,14 @@ const ProjectGalaxy: React.FC = () => {
                     {selectedProject.name}
                   </DialogTitle>
                   <Badge
-                    className={`${
-                      selectedProject.category === "ai"
-                        ? "bg-purple-600"
-                        : selectedProject.category === "cybersecurity"
-                          ? "bg-red-600"
-                          : selectedProject.category === "blockchain"
-                            ? "bg-blue-600"
-                            : "bg-green-600"
-                    }`}
+                    className={`${selectedProject.category === "ai"
+                      ? "bg-purple-600"
+                      : selectedProject.category === "cybersecurity"
+                        ? "bg-red-600"
+                        : selectedProject.category === "blockchain"
+                          ? "bg-blue-600"
+                          : "bg-green-600"
+                      }`}
                   >
                     {selectedProject.category === "ai"
                       ? "AI/ML"
@@ -674,18 +686,7 @@ const ProjectGalaxy: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      <style>
-        {`
-          @keyframes twinkle {
-            0%,
-            100% {
-              opacity: 0.2;
-            }
-            50% {
-              opacity: 1;
-            }
-        }
-      `}</style>
+
     </div>
   );
 };
