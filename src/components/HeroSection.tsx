@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Twitter } from "lucide-react";
+import InterstellarBackground from "./InterstellarBackground";
 import { Button } from "./ui/button";
 
 interface HeroSectionProps {
@@ -17,7 +18,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   title = "Machine Learning Engineer | Blockchain Developer | Bio Informatics Specialist",
   bio = "With 9 years of experience in the tech industry, specializing in AI/ML and Blockchain solutions with a focus on Bio Informatics applications. Passionate about leveraging cutting-edge technology to solve complex biological problems and build decentralized applications.",
   // Using the provided LinkedIn profile image
-  imageUrl = "https://media.licdn.com/dms/image/v2/C5103AQFnrewqhVuC2Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1583270095872?e=1763596800&v=beta&t=a4WIIkSy6dezCwO6uiMCgmP7ArU5Cs-_1D97Tx-nyJE",
+  imageUrl = "https://media.licdn.com/dms/image/v2/C5103AQFnrewqhVuC2Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1583270095872?e=1765411200&v=beta&t=FQg_OC-FFJLBN2BO2P6S4bQlld8kA-DXG8CYn_-XoA0",
   ctaText = "View My Work",
   onCtaClick = () => console.log("CTA clicked"),
 }) => {
@@ -25,7 +26,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
     <div className="relative min-h-screen w-full overflow-hidden bg-black text-white">
       {/* Animated background with particles */}
       <div className="absolute inset-0 z-0">
-        <ParticleBackground />
+        <InterstellarBackground />
       </div>
 
       {/* Content container */}
@@ -123,36 +124,6 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <ArrowDown className="h-8 w-8 text-cyan-400" />
         </motion.div>
       </div>
-    </div>
-  );
-};
-
-// Particle background component
-const ParticleBackground = () => {
-  return (
-    <div className="absolute inset-0">
-      {Array.from({ length: 50 }).map((_, index) => (
-        <motion.div
-          key={index}
-          className="absolute h-1 w-1 rounded-full bg-cyan-500"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            opacity: Math.random() * 0.5 + 0.3,
-            scale: Math.random() * 2 + 0.5,
-          }}
-          animate={{
-            opacity: [0.2, 0.8, 0.2],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{
-            repeat: Infinity,
-            duration: Math.random() * 5 + 3,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-      <div className="absolute inset-0 bg-gradient-radial from-transparent via-black/80 to-black"></div>
     </div>
   );
 };

@@ -99,7 +99,7 @@ const TechCredentials: React.FC<TechCredentialsProps> = ({
       logo: "https://api.dicebear.com/7.x/avataaars/svg?seed=ethereum",
     },
   ],
-  cvLink = "#",
+  cvLink = "https://drive.google.com/file/d/1mCxpr7I94MdNkTdL-h0o3G9ZL18sd3qj/view",
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const categories = ["All", ...new Set(skills.map((skill) => skill.category))];
@@ -308,7 +308,7 @@ const TechCredentials: React.FC<TechCredentialsProps> = ({
             asChild
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 rounded-full shadow-lg hover:shadow-blue-500/20 transition-all"
           >
-            <a href={cvLink} download>
+            <a href={cvLink} target="_blank" rel="noopener noreferrer">
               <Download className="mr-2 h-4 w-4" /> Download CV
             </a>
           </Button>
