@@ -105,12 +105,12 @@ galaxy-portfolio/
 ### 5. [AI-Powered Threat Detection System]
 **Tech Stack**: [Python, TensorFlow, ELK Stack, Kubernetes, Docker]  
 **Description**: [Advanced threat detection platform using machine learning to identify and mitigate zero-day vulnerabilities in real-time.]  
-[Live Demo](#) | [GitHub Repo](#)
+[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
 
 ### 6. [Blockchain Security Audit Framework]
 **Tech Stack**: [Solidity, Foundry, Python, Docker]  
 **Description**: [Comprehensive security auditing framework for smart contracts with automated vulnerability detection and reporting.]  
-[Live Demo](#) | [GitHub Repo](#)
+[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
 
 ### 7. [Zero-Trust Network Access (ZTNA) Solution]
 **Tech Stack**: [Golang, OAuth 2.0, OpenID Connect, Kubernetes, SPA]  
@@ -145,7 +145,7 @@ galaxy-portfolio/
 ### 13. [Healthcare Management System]
 **Tech Stack**: [React, Node.js, MongoDB, AWS, Docker]  
 **Description**: [Comprehensive platform for managing patient records, appointments, and medical billing with HIPAA compliance.]  
-[Live Demo](#) | [GitHub Repo](#)
+[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/healthcare-management-system)
 
 ### 14. [E-commerce Analytics Dashboard]
 **Tech Stack**: [Next.js, NestJS, PostgresSQL, Redis, Kubernetes]  
@@ -163,9 +163,14 @@ galaxy-portfolio/
 [Live Demo](#) | [GitHub Repo](#)
 
 ### 17. [Blockchain-based Supply Chain]
-**Tech Stack**: [Ethereum, React, Node.js, IPFS, Docker]  
+**Tech Stack**: [Ethereum, React, Node.js, Express.js, MySQL, Docker]  
 **Description**: [End-to-end supply chain management system with blockchain-based tracking and smart contracts.]  
-[Live Demo](#) | [GitHub Repo](#)
+[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CTFDMBSL_FINAL_PROJECT)
+
+### 18. [Flight Booking Platform]
+**Tech Stack**: [Redux, React, Node.js, Express.js, MySQL, Docker]  
+**Description**: [A flight booking web application designed to simplify the process of booking flights with the used of modern JavaScript techstacks.]  
+[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CTINFMGL_FINAL_PROJECT)
 
 ## 🤝 Contributing
 
