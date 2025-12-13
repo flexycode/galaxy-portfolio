@@ -148,7 +148,7 @@ const ProjectGalaxy: React.FC = () => {
         "Implemented in 50+ clinics"
       ],
       image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80",
-      github: "https://github.com/username/healthcare-system"
+      github: "https://github.com/flexycode/healthcare-management-system"
     },
     {
       id: "fs-2",
@@ -308,7 +308,7 @@ const ProjectGalaxy: React.FC = () => {
         "Open-sourced to community"
       ],
       image: "/projects/smart-contract-scanner.png",
-      github: "https://github.com/username/smart-contract-audit",
+      github: "https://github.com/flexycode/CCSFEN2L_ALTFLEX",
     },
     {
       id: "ai-3",

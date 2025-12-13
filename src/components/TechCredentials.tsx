@@ -71,32 +71,53 @@ const TechCredentials: React.FC<TechCredentialsProps> = ({
   ],
   certifications = [
     {
-      name: "TensorFlow Developer Certificate",
-      issuer: "Google",
-      date: "2021",
-      link: "#",
-      logo: "https://api.dicebear.com/7.x/avataaars/svg?seed=google",
+      name: "Legacy Full Stack",
+      issuer: "FreeCodeCamp",
+      date: "Verified",
+      link: "https://www.freecodecamp.org/certification/flexycode/full-stack",
+      logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
     },
     {
-      name: "AWS Certified Machine Learning – Specialty",
-      issuer: "Amazon Web Services",
-      date: "2020",
-      link: "#",
-      logo: "https://api.dicebear.com/7.x/avataaars/svg?seed=aws",
+      name: "Legacy Responsive Web Design V8",
+      issuer: "FreeCodeCamp",
+      date: "Verified",
+      link: "https://www.freecodecamp.org/certification/flexycode/responsive-web-design",
+      logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
     },
     {
-      name: "Certified Ethical Hacker (CEH)",
-      issuer: "EC-Council",
-      date: "2019",
-      link: "#",
-      logo: "https://api.dicebear.com/7.x/avataaars/svg?seed=ceh",
+      name: "Legacy JavaScript Algorithms and Data Structures V7",
+      issuer: "FreeCodeCamp",
+      date: "Verified",
+      link: "https://www.freecodecamp.org/certification/flexycode/javascript-algorithms-and-data-structures",
+      logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
     },
     {
-      name: "Blockchain Developer Certification",
-      issuer: "Ethereum Foundation",
-      date: "2018",
-      link: "#",
-      logo: "https://api.dicebear.com/7.x/avataaars/svg?seed=ethereum",
+      name: "Back End Development and APIs V8",
+      issuer: "FreeCodeCamp",
+      date: "Verified",
+      link: "https://www.freecodecamp.org/certification/flexycode/javascript-algorithms-and-data-structures",
+      logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
+    },
+    {
+      name: "Legacy Information Security and Quality Assurance",
+      issuer: "FreeCodeCamp",
+      date: "Verified",
+      link: "https://www.freecodecamp.org/certification/flexycode/information-security-and-quality-assurance",
+      logo: "https://avatars.githubusercontent.com/u/9892522?v=4",
+    },
+    {
+      name: "Intro to Python for Data Science Course",
+      issuer: "DataCamp",
+      date: "Jan 2018",
+      link: "https://www.datacamp.com/completed/statement-of-accomplishment/course/c9fd0d0411bb080fc2e6c316726f222ffe797f41",
+      logo: "https://avatars.githubusercontent.com/u/12631777?v=4",
+    },
+    {
+      name: "Solidity Smart Contract Developer Certification (SSCD+)",
+      issuer: "Cyfrin Updraft",
+      date: "Coming Soon",
+      link: "https://updraft.cyfrin.io/",
+      logo: "https://avatars.githubusercontent.com/u/106673693?v=4",
     },
   ],
   cvLink = "https://drive.google.com/file/d/1mCxpr7I94MdNkTdL-h0o3G9ZL18sd3qj/view",
@@ -259,12 +280,12 @@ const TechCredentials: React.FC<TechCredentialsProps> = ({
                   <Card className="bg-gray-900/50 border-blue-900/50 backdrop-blur-sm overflow-hidden">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-4">
-                        <div className="w-12 h-12 rounded-full overflow-hidden bg-blue-900/30 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-lg overflow-hidden bg-white/5 flex items-center justify-center p-1">
                           {cert.logo ? (
                             <img
                               src={cert.logo}
                               alt={cert.issuer}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           ) : (
                             <div className="text-xl font-bold text-blue-400">

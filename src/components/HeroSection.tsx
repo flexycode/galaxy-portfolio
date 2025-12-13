@@ -18,7 +18,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   title = "Machine Learning Engineer | Blockchain Developer | Bio Informatics Specialist",
   bio = "With 9 years of experience in the tech industry, specializing in AI/ML and Blockchain solutions with a focus on Bio Informatics applications. Passionate about leveraging cutting-edge technology to solve complex biological problems and build decentralized applications.",
   // Using the provided LinkedIn profile image
-  imageUrl = "https://media.licdn.com/dms/image/v2/C5103AQFnrewqhVuC2Q/profile-displayphoto-shrink_200_200/profile-displayphoto-shrink_200_200/0/1583270095872?e=1765411200&v=beta&t=FQg_OC-FFJLBN2BO2P6S4bQlld8kA-DXG8CYn_-XoA0",
+  imageUrl = "/projects/1.Jay Arre Talosig.png",
   ctaText = "View My Work",
   onCtaClick = () => console.log("CTA clicked"),
 }) => {
@@ -98,7 +98,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               <img
                 src={imageUrl}
                 alt={name}
-                className="h-full w-full object-cover"
+                className="h-full w-full object-cover object-[center_20%] scale-125"
                 onError={(e) => {
                   console.error('Error loading image:', imageUrl);
                   // Fallback to a placeholder if the image fails to load
