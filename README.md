@@ -66,11 +66,12 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. S
 galaxy-portfolio/
 ├── public/          # Static files
 ├── src/
-│   ├── assets/      # Images, fonts, etc.
 │   ├── components/  # Reusable components
-│   ├── styles/      # Global styles
+│   ├── lib/         # Utility functions and shared logic
+│   ├── stories/     # Storybook components
 │   ├── types/       # TypeScript type definitions
 │   ├── App.tsx      # Main App component
+│   ├── index.css    # Global styles
 │   └── main.tsx     # Entry point
 └── ...
 ```
