@@ -78,100 +78,78 @@ galaxy-portfolio/
 
 ## 🌟 Featured Projects
 
-### 1. Project Galaxy
-**Tech Stack**: React, TypeScript, Tailwind CSS  
+### AI/ML Projects
+
+#### 1. AltFlex: AI-Powered Forensic Framework
+**Tech Stack**: Python, TensorFlow, PyTorch, Solidity, Web3.py, Docker  
+**Description**: An integrated AI and digital forensics framework designed to proactively detect and analyze security exploits in cross-chain bridges and DeFi protocols. Combines machine learning anomaly detection with blockchain forensic analysis.  
+[GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
+
+![AltFlex Dashboard](/public/projects/altflex-forensics.png)
+
+#### 2. WWE Superstar Popularity Tier Prediction
+**Tech Stack**: Python, Scikit-learn, Pandas, NumPy, Matplotlib, Seaborn  
+**Description**: A comprehensive machine learning system that predicts WWE superstar popularity tiers (Main Eventer, Midcard, Enhancement) based on career statistics and performance metrics.  
+[GitHub Repo](https://github.com/flexycode/CCMACLRL_PROJECT)
+
+![WWE Prediction](/public/projects/wwe-prediction.png)
+
+---
+
+### Blockchain Projects
+
+#### 3. PharmaXLedger
+**Tech Stack**: React, Node.js, Solidity, Ethereum, PostgreSQL, Docker  
+**Description**: A state-of-the-art pharmaceutical supply chain management platform designed to ensure the integrity, transparency, and traceability of life-saving medications.  
+[GitHub Repo](https://github.com/flexycode/CTFDMBSL_ALT-PharmaXLedger)
+
+![PharmaXLedger](/public/projects/pharmaxledger.png)
+
+---
+
+### Full Stack Projects
+
+#### 4. Mindchain: Real-time Collaboration Platform
+**Tech Stack**: React, Node.js, WebSockets, MongoDB, Redis, TypeScript  
+**Description**: A high-performance, open-source alternative to Jira and Confluence, designed as a unified workspace for documentation and project management. Built with the 'Linear' / 'Raycast' aesthetic.  
+[GitHub Repo](https://github.com/flexycode/CCMETHOD_ALT-Mindchain)
+
+![Mindchain](/public/projects/mindchain.png)
+
+#### 5. Flight Booking Application
+**Tech Stack**: React, Redux, Node.js, Express.js, MySQL, Docker  
+**Description**: A flight booking web application designed to simplify the process of booking flights with modern JavaScript techstacks.  
+[GitHub Repo](https://github.com/flexycode/CTINFMGL_FINAL_PROJECT)
+
+![Flight Booking](/public/projects/flight-booking.png)
+
+#### 6. Healthcare Management System
+**Tech Stack**: React, Node.js, MongoDB, AWS, Docker  
+**Description**: Comprehensive platform for managing patient records, appointments, and medical billing with HIPAA compliance.  
+[GitHub Repo](https://github.com/flexycode/healthcare-management-system)
+
+---
+
+### Cybersecurity Projects
+
+#### 7. AltFlex: Smart Contract Security
+**Tech Stack**: Python, Solidity, TensorFlow, Web3.py, Docker  
+**Description**: Integrated AI and digital forensics framework for smart contract security analysis and DeFi protocol vulnerability detection.  
+[GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
+
+---
+
+### Other Projects
+
+#### 8. Project Galaxy (This Portfolio)
+**Tech Stack**: React, TypeScript, Tailwind CSS, Framer Motion  
 **Description**: A space-themed portfolio website with smooth animations and modern UI components.  
 [Live Demo](#) | [GitHub Repo](https://github.com/flexycode/galaxy-portfolio)
 
-### 2. [Genomic Data Analysis Platform]
-**Tech Stack**: [Python, TensorFlow, React, Django, PostgreSQL]  
-**Description**: [Advanced platform for analyzing and visualizing genomic data with AI-powered insights for precision medicine. Built with Django for backend, React for frontend, and PostgreSQL for database. Includes machine learning models for genomic data analysis and visualization tools for data exploration and interpretation.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 3. [Autonomous Financial Trading Bot]
-**Tech Stack**: [Python, PyTorch, Pandas, Alpaca API, Docker]  
-**Description**: [AI-powered trading system that analyzes market trends and executes trades with minimal human intervention.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 3. [Predictive Healthcare Analytics]
-**Tech Stack**: [Python, TensorFlow, PyTorch, DICOM, FastAPI]  
-**Description**: [Advanced ML system for predicting patient outcomes and treatment effectiveness using electronic health records and medical imaging.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 4. [Computer Vision for Manufacturing]
-**Tech Stack**: [Python, OpenCV, PyTorch, Flash, Docker]  
-**Description**: [AI system for quality control and defect detection in manufacturing using computer vision.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 5. [AI-Powered Threat Detection System]
-**Tech Stack**: [Python, TensorFlow, ELK Stack, Kubernetes, Docker]  
-**Description**: [Advanced threat detection platform using machine learning to identify and mitigate zero-day vulnerabilities in real-time.]  
-[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
-
-### 6. [Blockchain Security Audit Framework]
-**Tech Stack**: [Solidity, Foundry, Python, Docker]  
-**Description**: [Comprehensive security auditing framework for smart contracts with automated vulnerability detection and reporting.]  
-[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
-
-### 7. [Zero-Trust Network Access (ZTNA) Solution]
-**Tech Stack**: [Golang, OAuth 2.0, OpenID Connect, Kubernetes, SPA]  
-**Description**: [Enterprise-grade zero-trust network access solution with continuous authentication and least-privilege access controls.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 8. [Cloud-Native SIEM Platform]
-**Tech Stack**: [Elasticsearch, Kafka, Kubernetes, React]  
-**Description**: [Scalable Security Information and Event Management platform built for cloud-native environments with real-time threat intelligence.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 9. [Smart Contract Security Scanner]
-**Tech Stack**: [Solidity, Python, TensorFlow, Docker]  
-**Description**: [Automated tool for auditing smart contracts for security vulnerabilities with deeplearning-based analysis.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 10. [DeFi Yield Aggregator]
-**Tech Stack**: [Solidity, Ethereum, Web3.js, React, Hardhat]  
-**Description**: [A decentralized finance platform that automatically optimizes yield farming strategies across multiple protocols to maximize returns.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 11. [NFT Marketplace with AI Curation]
-**Tech Stack**: [IPFS, Ethereum, TensorFlow.js, Next.js, GraphQL]  
-**Description**: [A next-generation NFT marketplace with AI-powered discovery and personalized recommendations.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 12. [Cross-Chain Token Bridge]
-**Tech Stack**: [Cosmos SDK, IBC Protocol, Rust, Tendermint, WASM]  
-**Description**: [A secure and gas-efficient bridge for transferring assets between multiple blockchains.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 13. [Healthcare Management System]
-**Tech Stack**: [React, Node.js, MongoDB, AWS, Docker]  
-**Description**: [Comprehensive platform for managing patient records, appointments, and medical billing with HIPAA compliance.]  
-[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/healthcare-management-system)
-
-### 14. [E-commerce Analytics Dashboard]
-**Tech Stack**: [Next.js, NestJS, PostgresSQL, Redis, Kubernetes]  
-**Description**: [Real-time analytics dashboard for e-commerce businesses with AI-powered sales predictions and inventory management.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 15. [AI-Powred SaaS Analytics Platform]
-**Tech Stack**: [Next.js, NestJS, PostgresSQL, Redis, Docker]  
-**Description**: [Enterprise-grade analytics platform with predictive insights and automated reporting.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 16. [Real-time Collaboration Platform]
-**Tech Stack**: [React, Node.js, WebSockets, MongoDB, Redis]  
-**Description**: [Web-based platform for real-time document editing and team collaboration with end-to-end encryption.]  
-[Live Demo](#) | [GitHub Repo](#)
-
-### 17. [Blockchain-based Supply Chain]
-**Tech Stack**: [Ethereum, React, Node.js, Express.js, MySQL, Docker]  
-**Description**: [End-to-end supply chain management system with blockchain-based tracking and smart contracts.]  
-[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CTFDMBSL_FINAL_PROJECT)
-
-### 18. [Flight Booking Platform]
-**Tech Stack**: [Redux, React, Node.js, Express.js, MySQL, Docker]  
-**Description**: [A flight booking web application designed to simplify the process of booking flights with the used of modern JavaScript techstacks.]  
-[Live Demo](#) | [GitHub Repo](https://github.com/flexycode/CTINFMGL_FINAL_PROJECT)
+#### 9. Blockchain-based Supply Chain
+**Tech Stack**: Ethereum, React, Node.js, Express.js, MySQL, Docker  
+**Description**: End-to-end supply chain management system with blockchain-based tracking and smart contracts.  
+[GitHub Repo](https://github.com/flexycode/CTFDMBSL_FINAL_PROJECT)
 
 ## 🤝 Contributing
 

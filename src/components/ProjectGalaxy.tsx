@@ -105,6 +105,36 @@ const ProjectGalaxy: React.FC = () => {
     // AI/ML Projects
     {
       id: "ai-1",
+      name: "AltFlex: AI-Powered Forensic Framework",
+      description:
+        "AltFlex is an integrated AI and digital forensics framework designed to proactively detect and analyze security exploits in cross-chain bridges and DeFi protocols. By combining machine learning anomaly detection with blockchain forensic analysis, the system provides a comprehensive security solution for the rapidly evolving Web3 ecosystem.",
+      category: "ai",
+      technologies: ["Python", "TensorFlow", "PyTorch", "Solidity", "Web3.py", "Docker"],
+      outcomes: [
+        "Proactive exploit detection for DeFi protocols",
+        "Cross-chain bridge security analysis",
+        "Real-time anomaly detection with ML"
+      ],
+      image: "/projects/altflex-forensics.png",
+      github: "https://github.com/flexycode/CCSFEN2L_ALTFLEX"
+    },
+    {
+      id: "ai-2",
+      name: "WWE Superstar Popularity Tier Prediction",
+      description:
+        "A comprehensive machine learning system that predicts WWE superstar popularity tiers (Main Eventer, Midcard, Enhancement) based on career statistics and performance metrics. This multi-class classification project demonstrates end-to-end ML pipeline development with robust validation and deployment-ready features.",
+      category: "ai",
+      technologies: ["Python", "Scikit-learn", "Pandas", "NumPy", "Matplotlib", "Seaborn"],
+      outcomes: [
+        "Multi-class tier classification system",
+        "End-to-end ML pipeline development",
+        "Robust validation and deployment-ready features"
+      ],
+      image: "/projects/wwe-prediction.png",
+      github: "https://github.com/flexycode/CCMACLRL_PROJECT"
+    },
+    {
+      id: "ai-3",
       name: "Genomic Data Analysis Platform",
       description:
         "Advanced platform for analyzing and visualizing genomic data with AI-powered insights for precision medicine.",
@@ -120,198 +150,7 @@ const ProjectGalaxy: React.FC = () => {
       liveUrl: "https://genomics.flexyledger.xyz"
     },
     {
-      id: "ai-2",
-      name: "Autonomous Financial Trading Bot",
-      description:
-        "AI-powered trading system that analyzes market trends and executes trades with minimal human intervention.",
-      category: "ai",
-      technologies: ["Python", "PyTorch", "Pandas", "Alpaca API", "Docker"],
-      outcomes: [
-        "Consistent 15% quarterly returns",
-        "Processes 1000+ market signals per second",
-        "Real-time risk assessment"
-      ],
-      image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80",
-      github: "https://github.com/username/ai-trading-bot"
-    },
-    // Full Stack Projects
-    {
-      id: "fs-1",
-      name: "Healthcare Management System",
-      description:
-        "Comprehensive platform for managing patient records, appointments, and medical billing with HIPAA compliance.",
-      category: "fullstack",
-      technologies: ["React", "Node.js", "MongoDB", "AWS", "Docker"],
-      outcomes: [
-        "Reduced administrative workload by 60%",
-        "99.9% system uptime",
-        "Implemented in 50+ clinics"
-      ],
-      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80",
-      github: "https://github.com/flexycode/healthcare-management-system"
-    },
-    {
-      id: "fs-2",
-      name: "E-commerce Analytics Dashboard",
-      description:
-        "Real-time analytics platform for e-commerce businesses with AI-powered sales predictions and inventory management.",
-      category: "fullstack",
-      technologies: ["Next.js", "NestJS", "PostgreSQL", "Redis", "Kubernetes"],
-      outcomes: [
-        "30% increase in sales conversion",
-        "Real-time inventory tracking",
-        "Customizable dashboards"
-      ],
-      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-      github: "https://github.com/username/ecommerce-analytics",
-      liveUrl: "https://analytics.flexyledger.xyz"
-    },
-    // Cybersecurity Projects
-    {
-      id: "sec-1",
-      name: "AI-Powered Threat Detection System",
-      description:
-        "Advanced threat detection platform using machine learning to identify and mitigate zero-day vulnerabilities in real-time.",
-      category: "cybersecurity",
-      technologies: ["Python", "TensorFlow", "ELK Stack", "Kubernetes"],
-      outcomes: [
-        "Reduced detection time from hours to milliseconds",
-        "99.9% accuracy in threat classification",
-        "Deployed in enterprise environments"
-      ],
-      image:
-        "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
-      github: "https://github.com/username/ai-threat-detection"
-    },
-    {
-      id: "sec-2",
-      name: "Blockchain Security Audit Framework",
-      description:
-        "Comprehensive security auditing framework for smart contracts with automated vulnerability detection and reporting.",
-      category: "cybersecurity",
-      technologies: ["Solidity", "Foundry", "Python", "Docker"],
-      outcomes: [
-        "Identified 100+ critical vulnerabilities",
-        "Reduced audit time by 70%",
-        "Adopted by leading blockchain projects"
-      ],
-      image:
-        "/projects/blockchain-audit.png",
-      github: "https://github.com/username/blockchain-audit-framework"
-    },
-    // Blockchain Projects
-    {
-      id: "bc-1",
-      name: "DeFi Yield Aggregator",
-      description:
-        "A decentralized finance platform that automatically optimizes yield farming strategies across multiple protocols to maximize returns.",
-      category: "blockchain",
-      technologies: ["Solidity", "Ethereum", "Web3.js", "React", "Hardhat"],
-      outcomes: [
-        "30% higher APY compared to single-protocol staking",
-        "$5M+ TVL within first month",
-        "Featured in top DeFi platforms"
-      ],
-      image: "/projects/defi-yield.png", // DeFi Yield Aggregator
-      github: "https://github.com/username/defi-yield-aggregator",
-      liveUrl: "https://yield.flexyledger.xyz"
-    },
-    {
-      id: "bc-2",
-      name: "NFT Marketplace with AI Curation",
-      description:
-        "A next-generation NFT marketplace with AI-powered discovery and personalized recommendations.",
-      category: "blockchain",
-      technologies: ["IPFS", "Ethereum", "TensorFlow.js", "Next.js", "GraphQL"],
-      outcomes: [
-        "Reduced discovery time by 60%",
-        "10,000+ monthly active users",
-        "Featured in NFT industry reports"
-      ],
-      image: "/projects/nft-marketplace.png", // NFT Marketplace with AI Curation
-      github: "https://github.com/username/nft-ai-marketplace",
-      liveUrl: "https://nft.flexyledger.xyz"
-    },
-    {
-      id: "bc-3",
-      name: "Cross-Chain Token Bridge",
-      description:
-        "A secure and gas-efficient bridge for transferring assets between multiple blockchains.",
-      category: "blockchain",
-      technologies: ["Cosmos SDK", "IBC Protocol", "Rust", "Tendermint", "WASM"],
-      outcomes: [
-        "Supports 5+ blockchains",
-        "$50M+ in cross-chain volume",
-        "<1 minute transaction finality"
-      ],
-      image: "/projects/cross-chain-bridge.png", // Cross-Chain Token Bridge
-      github: "https://github.com/username/cross-chain-bridge",
-      liveUrl: "https://bridge.flexyledger.xyz"
-    },
-    {
-      id: "4",
-      name: "AI-Powered SaaS Analytics Platform",
-      description:
-        "Enterprise-grade analytics platform with predictive insights and automated reporting.",
-      category: "fullstack",
-      technologies: ["Next.js", "NestJS", "PostgreSQL", "Redis", "Docker"],
-      outcomes: [
-        "Reduced reporting time by 85%",
-        "50+ enterprise clients",
-        "99.99% uptime SLA"
-      ],
-      image:
-        "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-      github: "https://github.com/username/analytics-saas",
-      liveUrl: "https://analytics.flexyledger.xyz"
-    },
-    {
-      id: "sec-3",
-      name: "Zero-Trust Network Access (ZTNA) Solution",
-      description:
-        "Enterprise-grade zero-trust network access solution with continuous authentication and least-privilege access controls.",
-      category: "cybersecurity",
-      technologies: ["Golang", "OAuth 2.0", "OpenID Connect", "Kubernetes", "SPA"],
-      outcomes: [
-        "Reduced attack surface by 85%",
-        "Seamless user experience with MFA",
-        "Compliant with NIST 800-207"
-      ],
-      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
-      github: "https://github.com/username/ztna-solution"
-    },
-    {
-      id: "sec-4",
-      name: "Cloud-Native SIEM Platform",
-      description:
-        "Scalable Security Information and Event Management platform built for cloud-native environments with real-time threat intelligence.",
-      category: "cybersecurity",
-      technologies: ["Elasticsearch", "Kafka", "Kubernetes", "React"],
-      outcomes: [
-        "Processes 1M+ events per second",
-        "Reduced mean time to detect (MTTD) by 90%",
-        "Integrated with 50+ security tools"
-      ],
-      image: "/projects/cloud-siem.png",
-      github: "https://github.com/username/cloud-siem"
-    },
-    {
-      id: "sec-5",
-      name: "Smart Contract Security Scanner",
-      description:
-        "Automated tool for auditing smart contracts for security vulnerabilities with deep learning-based analysis.",
-      category: "cybersecurity",
-      technologies: ["Solidity", "Python", "TensorFlow", "Docker"],
-      outcomes: [
-        "Identified vulnerabilities in 150+ contracts",
-        "Saved $2M in potential exploits",
-        "Open-sourced to community"
-      ],
-      image: "/projects/smart-contract-scanner.png",
-      github: "https://github.com/flexycode/CCSFEN2L_ALTFLEX",
-    },
-    {
-      id: "ai-3",
+      id: "ai-4",
       name: "Predictive Healthcare Analytics",
       description:
         "Advanced ML system for predicting patient outcomes and treatment effectiveness using electronic health records and medical imaging.",
@@ -326,7 +165,7 @@ const ProjectGalaxy: React.FC = () => {
       github: "https://github.com/username/healthcare-predictive-analytics"
     },
     {
-      id: "ai-4",
+      id: "ai-5",
       name: "Computer Vision for Manufacturing",
       description:
         "AI system for quality control and defect detection in manufacturing using computer vision.",
@@ -342,35 +181,251 @@ const ProjectGalaxy: React.FC = () => {
     },
     // Full Stack Projects
     {
-      id: "fs-3",
-      name: "Real-time Collaboration Platform",
+      id: "fs-1",
+      name: "PharmaXLedger",
       description:
-        "Web-based platform for real-time document editing and team collaboration with end-to-end encryption.",
+        "PharmaXLedger is a state-of-the-art pharmaceutical supply chain management platform designed to ensure the integrity, transparency, and traceability of life-saving medications. Built with a focus on high-stakes tracking, it bridges the gap between traditional centralized management and future decentralized immutable ledgers.",
       category: "fullstack",
-      technologies: ["React", "Node.js", "WebSockets", "MongoDB", "Redis"],
+      technologies: ["React", "Node.js", "Solidity", "Ethereum", "PostgreSQL", "Docker"],
+      outcomes: [
+        "End-to-end pharmaceutical tracking",
+        "Blockchain-verified supply chain integrity",
+        "HIPAA-compliant data management"
+      ],
+      image: "/projects/pharmaxledger.png",
+      github: "https://github.com/flexycode/CTFDMBSL_ALT-PharmaXLedger"
+    },
+    {
+      id: "fs-2",
+      name: "Mindchain: Real-time Collaboration Platform",
+      description:
+        "Mindchain is a high-performance, open-source alternative to Jira and Confluence, designed as a unified workspace for documentation (Pages) and project management (Issues). Built with the 'Linear' / 'Raycast' aesthetic in mind, Mindchain provides a clean, minimalist, and distraction-free environment for engineering teams to sync their thoughts and tasks.",
+      category: "fullstack",
+      technologies: ["React", "Node.js", "WebSockets", "MongoDB", "Redis", "TypeScript"],
       outcomes: [
         "Sub-100ms real-time updates",
-        "End-to-end encryption",
-        "Support for 10,000+ concurrent users"
+        "Unified docs and project management",
+        "Linear/Raycast-inspired aesthetic"
       ],
-      image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&q=80",
-      github: "https://github.com/username/realtime-collab",
-      liveUrl: "https://collab.flexyledger.xyz"
+      image: "/projects/mindchain.png",
+      github: "https://github.com/flexycode/CCMETHOD_ALT-Mindchain"
+    },
+    {
+      id: "fs-3",
+      name: "Flight Booking Application",
+      description:
+        "A flight booking web application designed to simplify the process of booking flights with the use of modern JavaScript techstacks. Features seat selection, flight search, and booking management.",
+      category: "fullstack",
+      technologies: ["React", "Redux", "Node.js", "Express.js", "MySQL", "Docker"],
+      outcomes: [
+        "Streamlined flight booking process",
+        "Real-time seat selection",
+        "Modern responsive UI"
+      ],
+      image: "/projects/flight-booking.png",
+      github: "https://github.com/flexycode/CTINFMGL_FINAL_PROJECT"
     },
     {
       id: "fs-4",
-      name: "Blockchain-based Supply Chain",
+      name: "Healthcare Management System",
       description:
-        "End-to-end supply chain management system with blockchain-based tracking and smart contracts.",
+        "Comprehensive platform for managing patient records, appointments, and medical billing with HIPAA compliance.",
       category: "fullstack",
-      technologies: ["Ethereum", "React", "Node.js", "IPFS", "Docker"],
+      technologies: ["React", "Node.js", "MongoDB", "AWS", "Docker"],
       outcomes: [
-        "Eliminated counterfeit products",
-        "Real-time product tracking",
-        "Automated compliance checks"
+        "Reduced administrative workload by 60%",
+        "99.9% system uptime",
+        "Implemented in 50+ clinics"
       ],
-      image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=800&q=80",
-      github: "https://github.com/username/supply-chain-blockchain"
+      image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80",
+      github: "https://github.com/flexycode/healthcare-management-system"
+    },
+    {
+      id: "fs-5",
+      name: "E-commerce Analytics Dashboard",
+      description:
+        "Real-time analytics platform for e-commerce businesses with AI-powered sales predictions and inventory management.",
+      category: "fullstack",
+      technologies: ["Next.js", "NestJS", "PostgreSQL", "Redis", "Kubernetes"],
+      outcomes: [
+        "30% increase in sales conversion",
+        "Real-time inventory tracking",
+        "Customizable dashboards"
+      ],
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+      github: "https://github.com/username/ecommerce-analytics",
+      liveUrl: "https://analytics.flexyledger.xyz"
+    },
+    {
+      id: "fs-6",
+      name: "AI-Powered SaaS Analytics Platform",
+      description:
+        "Enterprise-grade analytics platform with predictive insights and automated reporting.",
+      category: "fullstack",
+      technologies: ["Next.js", "NestJS", "PostgreSQL", "Redis", "Docker"],
+      outcomes: [
+        "Reduced reporting time by 85%",
+        "50+ enterprise clients",
+        "99.99% uptime SLA"
+      ],
+      image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
+      github: "https://github.com/username/analytics-saas",
+      liveUrl: "https://analytics.flexyledger.xyz"
+    },
+    // Cybersecurity Projects
+    {
+      id: "sec-1",
+      name: "AltFlex: Smart Contract Security",
+      description:
+        "AltFlex is an integrated AI and digital forensics framework designed to proactively detect and analyze security exploits in cross-chain bridges and DeFi protocols. By combining machine learning anomaly detection with blockchain forensic analysis, the system provides a comprehensive security solution for the rapidly evolving Web3 ecosystem.",
+      category: "cybersecurity",
+      technologies: ["Python", "Solidity", "TensorFlow", "Web3.py", "Docker"],
+      outcomes: [
+        "Identified vulnerabilities in 150+ contracts",
+        "Saved $2M in potential exploits",
+        "Open-sourced to community"
+      ],
+      image: "/projects/altflex-forensics.png",
+      github: "https://github.com/flexycode/CCSFEN2L_ALTFLEX"
+    },
+    {
+      id: "sec-2",
+      name: "AI-Powered Threat Detection System",
+      description:
+        "Advanced threat detection platform using machine learning to identify and mitigate zero-day vulnerabilities in real-time.",
+      category: "cybersecurity",
+      technologies: ["Python", "TensorFlow", "ELK Stack", "Kubernetes"],
+      outcomes: [
+        "Reduced detection time from hours to milliseconds",
+        "99.9% accuracy in threat classification",
+        "Deployed in enterprise environments"
+      ],
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+      github: "https://github.com/username/ai-threat-detection"
+    },
+    {
+      id: "sec-3",
+      name: "Blockchain Security Audit Framework",
+      description:
+        "Comprehensive security auditing framework for smart contracts with automated vulnerability detection and reporting.",
+      category: "cybersecurity",
+      technologies: ["Solidity", "Foundry", "Python", "Docker"],
+      outcomes: [
+        "Identified 100+ critical vulnerabilities",
+        "Reduced audit time by 70%",
+        "Adopted by leading blockchain projects"
+      ],
+      image: "/projects/blockchain-audit.png",
+      github: "https://github.com/flexycode/CCSFEN2L_ALTFLEX"
+    },
+    {
+      id: "sec-4",
+      name: "Zero-Trust Network Access (ZTNA) Solution",
+      description:
+        "Enterprise-grade zero-trust network access solution with continuous authentication and least-privilege access controls.",
+      category: "cybersecurity",
+      technologies: ["Golang", "OAuth 2.0", "OpenID Connect", "Kubernetes", "SPA"],
+      outcomes: [
+        "Reduced attack surface by 85%",
+        "Seamless user experience with MFA",
+        "Compliant with NIST 800-207"
+      ],
+      image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
+      github: "https://github.com/username/ztna-solution"
+    },
+    {
+      id: "sec-5",
+      name: "Cloud-Native SIEM Platform",
+      description:
+        "Scalable Security Information and Event Management platform built for cloud-native environments with real-time threat intelligence.",
+      category: "cybersecurity",
+      technologies: ["Elasticsearch", "Kafka", "Kubernetes", "React"],
+      outcomes: [
+        "Processes 1M+ events per second",
+        "Reduced mean time to detect (MTTD) by 90%",
+        "Integrated with 50+ security tools"
+      ],
+      image: "/projects/cloud-siem.png",
+      github: "https://github.com/username/cloud-siem"
+    },
+    // Blockchain Projects
+    {
+      id: "bc-1",
+      name: "PharmaXLedger",
+      description:
+        "PharmaXLedger is a state-of-the-art pharmaceutical supply chain management platform designed to ensure the integrity, transparency, and traceability of life-saving medications. Built with a focus on high-stakes tracking, it bridges the gap between traditional centralized management and future decentralized immutable ledgers.",
+      category: "blockchain",
+      technologies: ["Solidity", "Ethereum", "React", "Node.js", "IPFS", "Hardhat"],
+      outcomes: [
+        "Immutable pharmaceutical tracking",
+        "Smart contract-based verification",
+        "Cross-stakeholder transparency"
+      ],
+      image: "/projects/pharmaxledger.png",
+      github: "https://github.com/flexycode/CTFDMBSL_ALT-PharmaXLedger"
+    },
+    {
+      id: "bc-2",
+      name: "AltFlex: Cross-Chain Security",
+      description:
+        "AltFlex is an integrated AI and digital forensics framework designed to proactively detect and analyze security exploits in cross-chain bridges and DeFi protocols. By combining machine learning anomaly detection with blockchain forensic analysis, the system provides a comprehensive security solution for the rapidly evolving Web3 ecosystem.",
+      category: "blockchain",
+      technologies: ["Solidity", "Rust", "Python", "Web3.py", "Cosmos SDK"],
+      outcomes: [
+        "Cross-chain bridge security analysis",
+        "DeFi protocol vulnerability detection",
+        "Blockchain forensic investigation tools"
+      ],
+      image: "/projects/altflex-forensics.png",
+      github: "https://github.com/flexycode/CCSFEN2L_ALTFLEX"
+    },
+    {
+      id: "bc-3",
+      name: "DeFi Yield Aggregator",
+      description:
+        "A decentralized finance platform that automatically optimizes yield farming strategies across multiple protocols to maximize returns.",
+      category: "blockchain",
+      technologies: ["Solidity", "Ethereum", "Web3.js", "React", "Hardhat"],
+      outcomes: [
+        "30% higher APY compared to single-protocol staking",
+        "$5M+ TVL within first month",
+        "Featured in top DeFi platforms"
+      ],
+      image: "/projects/defi-yield.png",
+      github: "https://github.com/username/defi-yield-aggregator",
+      liveUrl: "https://yield.flexyledger.xyz"
+    },
+    {
+      id: "bc-4",
+      name: "NFT Marketplace with AI Curation",
+      description:
+        "A next-generation NFT marketplace with AI-powered discovery and personalized recommendations.",
+      category: "blockchain",
+      technologies: ["IPFS", "Ethereum", "TensorFlow.js", "Next.js", "GraphQL"],
+      outcomes: [
+        "Reduced discovery time by 60%",
+        "10,000+ monthly active users",
+        "Featured in NFT industry reports"
+      ],
+      image: "/projects/nft-marketplace.png",
+      github: "https://github.com/username/nft-ai-marketplace",
+      liveUrl: "https://nft.flexyledger.xyz"
+    },
+    {
+      id: "bc-5",
+      name: "Cross-Chain Token Bridge",
+      description:
+        "A secure and gas-efficient bridge for transferring assets between multiple blockchains.",
+      category: "blockchain",
+      technologies: ["Cosmos SDK", "IBC Protocol", "Rust", "Tendermint", "WASM"],
+      outcomes: [
+        "Supports 5+ blockchains",
+        "$50M+ in cross-chain volume",
+        "<1 minute transaction finality"
+      ],
+      image: "/projects/cross-chain-bridge.png",
+      github: "https://github.com/username/cross-chain-bridge",
+      liveUrl: "https://bridge.flexyledger.xyz"
     }
   ];
 
@@ -548,6 +603,10 @@ const ProjectGalaxy: React.FC = () => {
                           size="sm"
                           variant="outline"
                           className="bg-black/50 border-white/20 h-8 w-8 p-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(project.github, '_blank');
+                          }}
                         >
                           <Github className="h-4 w-4" />
                         </Button>
@@ -557,6 +616,10 @@ const ProjectGalaxy: React.FC = () => {
                           size="sm"
                           variant="outline"
                           className="bg-black/50 border-white/20 h-8 w-8 p-0"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            window.open(project.liveUrl, '_blank');
+                          }}
                         >
                           <ExternalLink className="h-4 w-4" />
                         </Button>
@@ -669,13 +732,20 @@ const ProjectGalaxy: React.FC = () => {
 
               <CardFooter className="flex justify-end gap-4 pt-6">
                 {selectedProject.github && (
-                  <Button variant="outline" className="gap-2">
+                  <Button
+                    variant="outline"
+                    className="gap-2"
+                    onClick={() => window.open(selectedProject.github, '_blank')}
+                  >
                     <Github className="h-4 w-4" />
                     View Code
                   </Button>
                 )}
                 {selectedProject.liveUrl && (
-                  <Button className="gap-2 bg-blue-600 hover:bg-blue-700">
+                  <Button
+                    className="gap-2 bg-blue-600 hover:bg-blue-700"
+                    onClick={() => window.open(selectedProject.liveUrl, '_blank')}
+                  >
                     <ExternalLink className="h-4 w-4" />
                     Live Demo
                   </Button>
