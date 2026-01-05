@@ -15,8 +15,8 @@ interface HeroSectionProps {
 
 const HeroSection: React.FC<HeroSectionProps> = ({
   name = "Jay Arre Talosig",
-  title = "Machine Learning Engineer | Blockchain Developer | Bio Informatics Specialist",
-  bio = "With 9 years of experience in the tech industry, specializing in AI/ML and Blockchain solutions with a focus on Bio Informatics applications. Passionate about leveraging cutting-edge technology to solve complex biological problems and build decentralized applications.",
+  title = "Machine Learning Engineer | Blockchain Developer | Bioinformatics Student",
+  bio = "With 9 years of experience in the tech industry, specializing in AI/ML and Blockchain solutions, and currently learning Bioinformatics. Passionate about leveraging cutting-edge technology to solve complex biological problems and build decentralized applications.",
   // Using the provided LinkedIn profile image
   imageUrl = "/projects/1.Jay Arre Talosig.png",
   ctaText = "View My Work",
