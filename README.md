@@ -94,62 +94,107 @@ galaxy-portfolio/
 
 ![WWE Prediction](/public/projects/wwe-prediction.png)
 
----
+#### 3. Genomic Data Analysis Platform
+**Tech Stack**: Python, TensorFlow, React, Django, PostgreSQL  
+**Description**: Advanced platform for analyzing and visualizing genomic data with AI-powered insights for precision medicine.  
+[GitHub Repo](https://github.com/flexycode/BIOF-101_ALT-genomic-ai)
 
-### Blockchain Projects
+#### 4. Predictive Healthcare Analytics
+**Tech Stack**: Python, TensorFlow, PyTorch, DICOM, FastAPI  
+**Description**: Advanced ML system for predicting patient outcomes and treatment effectiveness using electronic health records and medical imaging.  
+[GitHub Repo](https://github.com/flexycode/BIOF-102_ALT-healthcare-predictive-analytics)
 
-#### 3. PharmaXLedger
-**Tech Stack**: React, Node.js, Solidity, Ethereum, PostgreSQL, Docker  
-**Description**: A state-of-the-art pharmaceutical supply chain management platform designed to ensure the integrity, transparency, and traceability of life-saving medications.  
-[GitHub Repo](https://github.com/flexycode/CTFDMBSL_ALT-PharmaXLedger)
-
-![PharmaXLedger](/public/projects/pharmaxledger.png)
+#### 5. Computer Vision for Manufacturing
+**Tech Stack**: Python, OpenCV, PyTorch, Flask, Docker  
+**Description**: AI system for quality control and defect detection in manufacturing using computer vision.  
+[GitHub Repo](https://github.com/flexycode/cv-manufacturing)
 
 ---
 
 ### Full Stack Projects
 
-#### 4. Mindchain: Real-time Collaboration Platform
+#### 6. Mindchain: Real-time Collaboration Platform
 **Tech Stack**: React, Node.js, WebSockets, MongoDB, Redis, TypeScript  
 **Description**: A high-performance, open-source alternative to Jira and Confluence, designed as a unified workspace for documentation and project management. Built with the 'Linear' / 'Raycast' aesthetic.  
 [GitHub Repo](https://github.com/flexycode/CCMETHOD_ALT-Mindchain)
 
 ![Mindchain](/public/projects/mindchain.png)
 
-#### 5. Flight Booking Application
+#### 7. Flight Booking Application
 **Tech Stack**: React, Redux, Node.js, Express.js, MySQL, Docker  
 **Description**: A flight booking web application designed to simplify the process of booking flights with modern JavaScript techstacks.  
 [GitHub Repo](https://github.com/flexycode/CTINFMGL_FINAL_PROJECT)
 
 ![Flight Booking](/public/projects/flight-booking.png)
 
-#### 6. Healthcare Management System
-**Tech Stack**: React, Node.js, MongoDB, AWS, Docker  
-**Description**: Comprehensive platform for managing patient records, appointments, and medical billing with HIPAA compliance.  
-[GitHub Repo](https://github.com/flexycode/healthcare-management-system)
+#### 8. E-commerce Analytics Dashboard
+**Tech Stack**: Next.js, NestJS, PostgreSQL, Redis, Kubernetes  
+**Description**: Real-time analytics platform for e-commerce businesses with AI-powered sales predictions and inventory management.  
+[GitHub Repo](https://github.com/flexycode/ecommerce-analytics)
+
+#### 9. AI-Powered SaaS Analytics Platform
+**Tech Stack**: Next.js, NestJS, PostgreSQL, Redis, Docker  
+**Description**: Enterprise-grade analytics platform with predictive insights and automated reporting.  
+[GitHub Repo](https://github.com/flexycode/analytics-saas)
+
+---
+
+### Blockchain Projects
+
+#### 10. PharmaXLedger
+**Tech Stack**: React, Node.js, Solidity, Ethereum, PostgreSQL, Docker  
+**Description**: A state-of-the-art pharmaceutical supply chain management platform designed to ensure the integrity, transparency, and traceability of life-saving medications.  
+[GitHub Repo](https://github.com/flexycode/CTFDMBSL_ALT-PharmaXLedger)
+
+![PharmaXLedger](/public/projects/pharmaxledger.png)
+
+#### 11. DeFi Yield Aggregator
+**Tech Stack**: Solidity, Ethereum, Web3.js, React, Hardhat  
+**Description**: A decentralized finance platform that automatically optimizes yield farming strategies across multiple protocols to maximize returns.  
+[GitHub Repo](https://github.com/flexyledger/defi-yield-aggregator)
+
+#### 12. NFT Marketplace with AI Curation
+**Tech Stack**: IPFS, Ethereum, TensorFlow.js, Next.js, GraphQL  
+**Description**: A next-generation NFT marketplace with AI-powered discovery and personalized recommendations.  
+[GitHub Repo](https://github.com/flexyledger/nft-ai-marketplace)
+
+#### 13. Cross-Chain Token Bridge
+**Tech Stack**: Cosmos SDK, IBC Protocol, Rust, Tendermint, WASM  
+**Description**: A secure and gas-efficient bridge for transferring assets between multiple blockchains.  
+[GitHub Repo](https://github.com/flexyledger/cross-chain-bridge)
 
 ---
 
 ### Cybersecurity Projects
 
-#### 7. AltFlex: Smart Contract Security
+#### 14. AltFlex: Smart Contract Security
 **Tech Stack**: Python, Solidity, TensorFlow, Web3.py, Docker  
 **Description**: Integrated AI and digital forensics framework for smart contract security analysis and DeFi protocol vulnerability detection.  
 [GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
+
+#### 15. AI-Powered Threat Detection System
+**Tech Stack**: Python, TensorFlow, ELK Stack, Kubernetes  
+**Description**: Advanced threat detection platform using machine learning to identify and mitigate zero-day vulnerabilities in real-time.  
+[GitHub Repo](https://github.com/flexyledger/ai-threat-detection)
+
+#### 16. Zero-Trust Network Access (ZTNA) Solution
+**Tech Stack**: Golang, OAuth 2.0, OpenID Connect, Kubernetes, SPA  
+**Description**: Enterprise-grade zero-trust network access solution with continuous authentication and least-privilege access controls.  
+[GitHub Repo](https://github.com/flexyledger/ztna-solution)
+
+#### 17. Cloud-Native SIEM Platform
+**Tech Stack**: Elasticsearch, Kafka, Kubernetes, React  
+**Description**: Scalable Security Information and Event Management platform built for cloud-native environments with real-time threat intelligence.  
+[GitHub Repo](https://github.com/flexyledger/cloud-siem)
 
 ---
 
 ### Other Projects
 
-#### 8. Project Galaxy (This Portfolio)
+#### 18. Project Galaxy (This Portfolio)
 **Tech Stack**: React, TypeScript, Tailwind CSS, Framer Motion  
 **Description**: A space-themed portfolio website with smooth animations and modern UI components.  
 [Live Demo](#) | [GitHub Repo](https://github.com/flexycode/galaxy-portfolio)
-
-#### 9. Blockchain-based Supply Chain
-**Tech Stack**: Ethereum, React, Node.js, Express.js, MySQL, Docker  
-**Description**: End-to-end supply chain management system with blockchain-based tracking and smart contracts.  
-[GitHub Repo](https://github.com/flexycode/CTFDMBSL_FINAL_PROJECT)
 
 ## 🤝 Contributing
 

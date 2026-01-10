@@ -146,7 +146,7 @@ const ProjectGalaxy: React.FC = () => {
         "Used in 10+ research institutions"
       ],
       image: "https://images.unsplash.com/photo-1575505586569-646b2ca898fc?w=800&q=80",
-      github: "https://github.com/username/genomic-ai",
+      github: "https://github.com/flexycode/BIOF-101_ALT-genomic-ai",
       liveUrl: "https://genomics.flexyledger.xyz"
     },
     {
@@ -162,7 +162,7 @@ const ProjectGalaxy: React.FC = () => {
         "Integrated with hospital EMR systems"
       ],
       image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=800&q=80",
-      github: "https://github.com/username/healthcare-predictive-analytics"
+      github: "https://github.com/flexycode/BIOF-102_ALT-healthcare-predictive-analytics"
     },
     {
       id: "ai-5",
@@ -177,7 +177,7 @@ const ProjectGalaxy: React.FC = () => {
         "Deployed on edge devices"
       ],
       image: "https://images.unsplash.com/photo-1581094271901-8022df4466f9?w=800&q=80",
-      github: "https://github.com/username/cv-manufacturing"
+      github: "https://github.com/flexycode/cv-manufacturing"
     },
     // Full Stack Projects
     {
@@ -253,7 +253,7 @@ const ProjectGalaxy: React.FC = () => {
         "Customizable dashboards"
       ],
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-      github: "https://github.com/username/ecommerce-analytics",
+      github: "https://github.com/flexycode/ecommerce-analytics",
       liveUrl: "https://analytics.flexyledger.xyz"
     },
     {
@@ -269,7 +269,7 @@ const ProjectGalaxy: React.FC = () => {
         "99.99% uptime SLA"
       ],
       image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80",
-      github: "https://github.com/username/analytics-saas",
+      github: "https://github.com/flexycode/analytics-saas",
       liveUrl: "https://analytics.flexyledger.xyz"
     },
     // Cybersecurity Projects
@@ -301,7 +301,7 @@ const ProjectGalaxy: React.FC = () => {
         "Deployed in enterprise environments"
       ],
       image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
-      github: "https://github.com/username/ai-threat-detection"
+      github: "https://github.com/flexyledger/ai-threat-detection"
     },
     {
       id: "sec-3",
@@ -331,7 +331,7 @@ const ProjectGalaxy: React.FC = () => {
         "Compliant with NIST 800-207"
       ],
       image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800&q=80",
-      github: "https://github.com/username/ztna-solution"
+      github: "https://github.com/flexyledger/ztna-solution"
     },
     {
       id: "sec-5",
@@ -346,7 +346,7 @@ const ProjectGalaxy: React.FC = () => {
         "Integrated with 50+ security tools"
       ],
       image: "/projects/cloud-siem.png",
-      github: "https://github.com/username/cloud-siem"
+      github: "https://github.com/flexyledger/cloud-siem"
     },
     // Blockchain Projects
     {
@@ -392,7 +392,7 @@ const ProjectGalaxy: React.FC = () => {
         "Featured in top DeFi platforms"
       ],
       image: "/projects/defi-yield.png",
-      github: "https://github.com/username/defi-yield-aggregator",
+      github: "https://github.com/flexyledger/defi-yield-aggregator",
       liveUrl: "https://yield.flexyledger.xyz"
     },
     {
@@ -408,7 +408,7 @@ const ProjectGalaxy: React.FC = () => {
         "Featured in NFT industry reports"
       ],
       image: "/projects/nft-marketplace.png",
-      github: "https://github.com/username/nft-ai-marketplace",
+      github: "https://github.com/flexyledger/nft-ai-marketplace",
       liveUrl: "https://nft.flexyledger.xyz"
     },
     {
@@ -424,7 +424,7 @@ const ProjectGalaxy: React.FC = () => {
         "<1 minute transaction finality"
       ],
       image: "/projects/cross-chain-bridge.png",
-      github: "https://github.com/username/cross-chain-bridge",
+      github: "https://github.com/flexyledger/cross-chain-bridge",
       liveUrl: "https://bridge.flexyledger.xyz"
     }
   ];
