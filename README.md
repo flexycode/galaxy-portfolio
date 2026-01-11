@@ -172,6 +172,8 @@ galaxy-portfolio/
 **Description**: Integrated AI and digital forensics framework for smart contract security analysis and DeFi protocol vulnerability detection.  
 [GitHub Repo](https://github.com/flexycode/CCSFEN2L_ALTFLEX)
 
+![AltFlex](/public/projects/altflex-forensics.png)
+
 #### 15. AI-Powered Threat Detection System
 **Tech Stack**: Python, TensorFlow, ELK Stack, Kubernetes  
 **Description**: Advanced threat detection platform using machine learning to identify and mitigate zero-day vulnerabilities in real-time.  
@@ -181,6 +183,8 @@ galaxy-portfolio/
 **Tech Stack**: Golang, OAuth 2.0, OpenID Connect, Kubernetes, SPA  
 **Description**: Enterprise-grade zero-trust network access solution with continuous authentication and least-privilege access controls.  
 [GitHub Repo](https://github.com/flexyledger/ztna-solution)
+
+![ZTNA](https://images.unsplash.com/photo-1550751827-4bd374c3f58b)
 
 #### 17. Cloud-Native SIEM Platform
 **Tech Stack**: Elasticsearch, Kafka, Kubernetes, React  
@@ -195,6 +199,29 @@ galaxy-portfolio/
 **Tech Stack**: React, TypeScript, Tailwind CSS, Framer Motion  
 **Description**: A space-themed portfolio website with smooth animations and modern UI components.  
 [Live Demo](#) | [GitHub Repo](https://github.com/flexycode/galaxy-portfolio)
+
+## 📱 Mobile Responsiveness
+
+This portfolio is fully optimized for mobile devices with enhanced modal dialogs featuring:
+
+- **Large tap targets** (40x40px) for close buttons
+- **Visible close button** with dark background for better visibility
+- **Scrollable modal content** that fits within the viewport
+- **Smooth animations** optimized for mobile performance
+
+### Project Galaxy Modal
+
+![Project Galaxy Modal](/public/mobile/project-galaxy-modal.png)
+
+### Blog Section Modal
+
+![Blog Section Modal](/public/mobile/blog-section-modal.png)
+
+### Mobile Test Recording
+
+![Mobile Test Recording](/public/mobile/mobile-test-recording.webp)
+
+---
 
 ## 🤝 Contributing
 

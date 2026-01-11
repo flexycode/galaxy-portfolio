@@ -162,7 +162,7 @@ const BlogSection = ({ posts = defaultPosts }: BlogSectionProps) => {
                       </DialogTrigger>
                     </CardFooter>
                   </Card>
-                  <DialogContent className="max-w-3xl bg-gray-900 text-white border-gray-700">
+                  <DialogContent className="max-w-3xl bg-gray-900 text-white border-gray-700 max-h-[90vh] overflow-y-auto pt-12 sm:pt-6">
                     <DialogHeader>
                       <DialogTitle className="text-2xl font-bold text-white">
                         {post.title}
@@ -245,7 +245,7 @@ const BlogSection = ({ posts = defaultPosts }: BlogSectionProps) => {
                     </DialogTrigger>
                   </CardFooter>
                 </Card>
-                <DialogContent className="max-w-2xl bg-gray-900 text-white border-gray-700">
+                <DialogContent className="max-w-2xl bg-gray-900 text-white border-gray-700 max-h-[90vh] overflow-y-auto pt-12 sm:pt-6">
                   <DialogHeader>
                     <DialogTitle className="text-xl font-bold text-white">
                       {post.title}

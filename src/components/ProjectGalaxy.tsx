@@ -634,7 +634,7 @@ const ProjectGalaxy: React.FC = () => {
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl bg-slate-900 text-white border-slate-700">
+        <DialogContent className="max-w-4xl bg-slate-900 text-white border-slate-700 max-h-[90vh] overflow-y-auto pt-12 sm:pt-6">
           {selectedProject && (
             <>
               <DialogHeader>
