@@ -90,17 +90,21 @@ The portfolio features a high-performance 3D stellar environment built from the 
 
 ### 📺 Demo
 
-**Background Preview (Three.js)**
-![Three.js Background Preview](/public/demo/threejs-background-preview.png)
+**Cinematic Interstellar Background (Phase 2)**
+![Enhanced 3D Background Preview](/public/demo/threejs-phase2-preview.png)
 
 **Video Recording**
-![3D Background in Action](/public/demo/threejs-background-demo.webp)
+![Cinematic traversal in action](/public/demo/threejs-phase2-demo.webp)
 
 ### 🛠️ Technical Details
 - **Engine**: [InterstellarBackground.tsx](file:///c:/Users/flexycode/Desktop/galaxy-portfolio/src/components/InterstellarBackground.tsx) (Three.js WebGLRenderer)
-- **Geometry**: Custom `SphereGeometry` for planets and `PlaneGeometry` for iconic ships.
-- **Lighting**: `AmbientLight` and `PointLight` for cinematic highlights.
-- **Overlays**: Integrated blockchain labels using Framer Motion on a separate UI layer for crisp text rendering.
+- **Geometry**: Custom `SphereGeometry` (Planets) and optimized `PlaneGeometry` (Ships/Asteroids/Nebulae).
+- **Cinematic Effects**:
+  - **Spiral Galaxy**: Distant rotating structure with Additive Blending.
+  - **Environment**: Asteroid belts and volumetric-style cosmic dust layers.
+  - **Camera Roving**: Subtle "pilot-view" movement for added immersion.
+- **Realistic Scaling**: Relative planetary radiuses from Mars (2.5) to Jupiter (15), including Earth (4.5).
+- **Overlays**: Integrated blockchain labels using Framer Motion on a separate UI layer.
 
 ## 🌟 Featured Projects
 
@@ -271,3 +275,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 
 Made with ❤️ by [Jay Arre Talosig](https://github.com/flexycode)
+
