@@ -90,21 +90,21 @@ The portfolio features a high-performance 3D stellar environment built from the 
 
 ### 📺 Demo
 
-**Cinematic Interstellar Background (Phase 2)**
-![Enhanced 3D Background Preview](/public/demo/threejs-phase2-preview.png)
-
-**Video Recording**
-![Cinematic traversal in action](/public/demo/threejs-phase2-demo.webp)
+**Dynamic Galaxy Cycle & Hero Objects (Phase 5)**
+![Interstellar 3D Ecosystem](/public/demo/interstellar-phase5-demo.webp)
 
 ### 🛠️ Technical Details
 - **Engine**: [InterstellarBackground.tsx](file:///c:/Users/flexycode/Desktop/galaxy-portfolio/src/components/InterstellarBackground.tsx) (Three.js WebGLRenderer)
-- **Geometry**: Custom `SphereGeometry` (Planets) and optimized `PlaneGeometry` (Ships/Asteroids/Nebulae).
-- **Cinematic Effects**:
-  - **Spiral Galaxy**: Distant rotating structure with Additive Blending.
-  - **Environment**: Asteroid belts and volumetric-style cosmic dust layers.
-  - **Camera Roving**: Subtle "pilot-view" movement for added immersion.
-- **Realistic Scaling**: Relative planetary radiuses from Mars (2.5) to Jupiter (15), including Earth (4.5).
-- **Overlays**: Integrated blockchain labels using Framer Motion on a separate UI layer.
+- **Galaxy Cycle**: Dynamic state machine (`FADE_IN` → `VISIBLE` → `FADE_OUT` → `SWAP`) cycling through 4 distinct high-fidelity galaxy textures (Blue Spiral, Gold Elliptical, Purple Nebula, Red Ring).
+- **Hero Objects**:
+  - **Saturn**: True 3D sphere with separate, tilted transparent ring geometry.
+  - **Sun**: High-emissive sphere with billboarded corona halo.
+  - **Space Station**: Complex mesh with independently rotating gravity ring.
+  - **Exoplanets**: Detailed surface mapping for Proxima Centauri b and Alien worlds.
+- **Rendering Fidelity**:
+  - **High-Precision Alpha**: Ship sprites use aggressive `alphaTest` (0.6) to eliminate artifacts.
+  - **Depth Sorting**: Explicit `depthWrite` enabled for all foreground objects to ensure correct occlusion.
+- **Cinematic Camera**: Subtle "cockpit-view" roving effect for immersion.
 
 ## 🌟 Featured Projects
 
