@@ -101,6 +101,145 @@ const InterstellarBackground = () => {
         const FADE_DURATION = 3000; // 3s fade
         const VISIBLE_DURATION = 15000; // 15s hold
 
+        // --- HERO OBJECTS (Saturn, Sun, Station) ---
+        const heroTextures = {
+            saturn: loader.load("/interstellar/saturn_surface.png"),
+            saturnRing: loader.load("/interstellar/saturn_rings.png"),
+            sun: loader.load("/interstellar/sun_surface.png"),
+            proxima: loader.load("/interstellar/proxima_surface.png"),
+            alien: loader.load("/interstellar/alien_surface.png"),
+            station: loader.load("/interstellar/station_hull.png"),
+        };
+
+        const activeHeroes: { group: THREE.Group; type: string; speed: number; rotSpeed: { x: number, y: number, z: number } }[] = [];
+
+        const spawnHero = () => {
+            // 10% Sun, 20% Saturn, 20% Station, 50% Planet
+            const rand = Math.random();
+            const type = rand < 0.1 ? 'sun' : rand < 0.3 ? 'saturn' : rand < 0.5 ? 'station' : rand < 0.75 ? 'proxima' : 'alien';
+
+            const group = new THREE.Group();
+            let body: THREE.Mesh;
+
+            if (type === 'saturn') {
+                // Body
+                const geometry = new THREE.SphereGeometry(18, 64, 64);
+                const material = new THREE.MeshStandardMaterial({ map: heroTextures.saturn, roughness: 0.8 });
+                body = new THREE.Mesh(geometry, material);
+                group.add(body);
+
+                // Rings
+                const ringGeo = new THREE.RingGeometry(22, 38, 64);
+                const ringMat = new THREE.MeshBasicMaterial({
+                    map: heroTextures.saturnRing,
+                    transparent: true,
+                    side: THREE.DoubleSide,
+                    opacity: 0.9
+                });
+                // Fix UV mapping for RingGeometry to properly map the texture radially
+                const pos = ringGeo.attributes.position;
+                const uv = ringGeo.attributes.uv;
+                for (let i = 0; i < pos.count; i++) {
+                    const x = pos.getX(i);
+                    const y = pos.getY(i);
+                    const d = Math.sqrt(x * x + y * y); // distance from center
+                    // Map distance to V, Angle to U
+                    // Simple planar mapping is often default, but for rings we want the texture to wrap
+                    // Actually, RingGeometry defaults to planar UVs. 
+                    // Since our texture is a full circle top-down, default UVs should map perfectly if we just rotate mesh.
+                }
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                ring.rotation.x = Math.PI / 2; // Flat
+                ring.rotation.y = -Math.PI / 8; // Tilt
+                group.add(ring);
+                // Tilt the whole planet slightly
+                group.rotation.z = Math.PI / 6;
+
+            } else if (type === 'sun') {
+                const geometry = new THREE.SphereGeometry(45, 64, 64); // Massive
+                const material = new THREE.MeshBasicMaterial({
+                    map: heroTextures.sun,
+                    // emissive: new THREE.Color(0xffaa00), 
+                    // emissiveIntensity: 2.0 
+                });
+                body = new THREE.Mesh(geometry, material);
+
+                // Glow Halo
+                const haloGeo = new THREE.PlaneGeometry(140, 140);
+                const haloMat = new THREE.MeshBasicMaterial({
+                    map: loader.load("/interstellar/cosmic_dust.png"), // Revert to dust for glow
+                    transparent: true,
+                    opacity: 0.6,
+                    color: 0xffaa00,
+                    blending: THREE.AdditiveBlending,
+                    depthWrite: false
+                });
+                const halo = new THREE.Mesh(haloGeo, haloMat);
+                halo.renderOrder = -1; // Behind sun
+                group.add(halo);
+
+                group.add(body);
+
+            } else if (type === 'station') {
+                // Central Hull
+                const hullGeo = new THREE.CylinderGeometry(4, 4, 35, 32);
+                const hullMat = new THREE.MeshStandardMaterial({
+                    map: heroTextures.station,
+                    metalness: 0.8,
+                    roughness: 0.3
+                });
+                body = new THREE.Mesh(hullGeo, hullMat);
+                body.rotation.z = Math.PI / 2; // Horizontal
+                group.add(body);
+
+                // Gravity Ring
+                const ringGeo = new THREE.TorusGeometry(12, 2, 16, 100);
+                const ringMat = new THREE.MeshStandardMaterial({
+                    map: heroTextures.station,
+                    metalness: 0.7,
+                    roughness: 0.4
+                });
+                const ring = new THREE.Mesh(ringGeo, ringMat);
+                // Ring rotates around the cylinder axis
+                ring.userData = { isRotator: true };
+                group.add(ring);
+
+            } else {
+                // Planets (Proxima / Alien)
+                const geometry = new THREE.SphereGeometry(12, 64, 64);
+                const material = new THREE.MeshStandardMaterial({
+                    map: type === 'proxima' ? heroTextures.proxima : heroTextures.alien,
+                    roughness: 0.6,
+                    metalness: 0.1,
+                    emissive: type === 'alien' ? new THREE.Color(0x0044ff) : new THREE.Color(0x000000),
+                    emissiveIntensity: 0.2
+                });
+                body = new THREE.Mesh(geometry, material);
+                group.add(body);
+            }
+
+            group.renderOrder = 20; // Hero priority
+
+            // Positioning - LOWER FIELD
+            const xPos = (Math.random() - 0.5) * 150; // Spread wide
+            const yPos = -40 - Math.random() * 40; // ALWAYS BELOW CENTER
+            group.position.set(xPos, yPos, -1600); // Start far background
+
+            scene.add(group);
+
+            activeHeroes.push({
+                group,
+                type,
+                speed: 1.5 + Math.random() * 1.0, // Slow majestic movement
+                rotSpeed: {
+                    x: Math.random() * 0.005,
+                    y: 0.01 + Math.random() * 0.01, // Continual spin
+                    z: 0
+                }
+            });
+        };
+
+
         // --- Starfield ---
         const starCount = 5000; // Increased count
         const starGeometry = new THREE.BufferGeometry();
@@ -255,6 +394,7 @@ const InterstellarBackground = () => {
         let lastTime = 0;
         let lastSpawn = 0;
         let lastEnvSpawn = 0;
+        let lastHeroSpawn = 0;
 
         const animate = (time: number) => {
             const delta = time - lastTime;
@@ -318,40 +458,69 @@ const InterstellarBackground = () => {
             }
             starGeometry.attributes.position.needsUpdate = true;
 
-            // 4. Move Environmental (Asteroids/Nebulae)
-            activeEnvironment.forEach((obj, idx) => {
-                obj.mesh.position.z += obj.speed * 2;
-                if (obj.type === "asteroid") {
-                    obj.mesh.rotation.x += obj.rotX;
-                    obj.mesh.rotation.y += obj.rotY;
-                }
-                if (obj.mesh.position.z > 150) {
-                    scene.remove(obj.mesh);
-                    activeEnvironment.splice(idx, 1);
-                }
-            });
+            // 4. Hero Objects Logic
+            if (time - lastHeroSpawn > 12000) { // Spawn every 12 seconds
+                spawnHero();
+                lastHeroSpawn = time;
+            }
 
-            // 5. Move Celestial Objects (Planets/Ships)
-            activeObjects.forEach((obj, idx) => {
-                obj.mesh.position.z += obj.speed * 2;
-                obj.mesh.position.x += obj.driftX * 2;
-                obj.mesh.position.y += obj.driftY * 2;
-                obj.mesh.rotation.y += 0.01;
+            for (let i = activeHeroes.length - 1; i >= 0; i--) {
+                const obj = activeHeroes[i];
+                obj.group.position.z += obj.speed * (delta / 16); // Standardized speed
 
-                if (obj.mesh.position.z > 200) {
-                    scene.remove(obj.mesh);
-                    activeObjects.splice(idx, 1);
+                // Detailed Rotation
+                obj.group.rotation.y += obj.rotSpeed.y;
+                obj.group.rotation.x += obj.rotSpeed.x;
+
+                // Special rotation for Station Ring
+                if (obj.type === 'station') {
+                    obj.group.children.forEach(child => {
+                        if (child.userData.isRotator) {
+                            child.rotation.z += 0.005; // Spin gravity ring
+                        }
+                    });
                 }
-            });
 
-            // 6. Spawning Logic
-            if (time - lastSpawn > 10000 && activeObjects.length < 4) {
+                if (obj.group.position.z > 300) {
+                    scene.remove(obj.group);
+                    activeHeroes.splice(i, 1);
+                }
+            }
+
+            // 5. Normal Environment & Celestial Logic
+            if (time - lastSpawn > 800) {
                 spawnCelestial();
                 lastSpawn = time;
             }
             if (time - lastEnvSpawn > 2000) {
-                spawnEnvironment(Math.random() > 0.8 ? "nebula" : "asteroid");
+                spawnEnvironment(Math.random() < 0.7 ? "asteroid" : "nebula");
                 lastEnvSpawn = time;
+            }
+
+            // Update Environment
+            for (let i = activeEnvironment.length - 1; i >= 0; i--) {
+                const obj = activeEnvironment[i];
+                obj.mesh.position.z += obj.speed * (delta / 16);
+                obj.mesh.rotation.z += obj.rotX;
+                obj.mesh.rotation.x += obj.rotY;
+
+                if (obj.mesh.position.z > 200) {
+                    scene.remove(obj.mesh);
+                    activeEnvironment.splice(i, 1);
+                }
+            }
+
+            // Update Foreground Celestial
+            for (let i = activeObjects.length - 1; i >= 0; i--) {
+                const obj = activeObjects[i];
+                obj.mesh.position.z += obj.speed * (delta / 16);
+                obj.mesh.position.x += obj.driftX;
+                obj.mesh.position.y += obj.driftY;
+
+                if (obj.mesh.position.z > 200) {
+                    scene.remove(obj.mesh);
+                    activeObjects.splice(i, 1);
+                }
             }
 
             renderer.render(scene, camera);
