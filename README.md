@@ -62,19 +62,45 @@ A modern, responsive portfolio website built with React, TypeScript, and Vite. S
 
 ## 🏗️ Project Structure
 
-```
+```bash
 galaxy-portfolio/
-├── public/          # Static files
+├── public/                 # Static assets
+│   ├── interstellar/       # 🌌 Generated planets & spaceship assets
+│   ├── mobile/             # 📱 Mobile responsiveness screenshots
+│   └── projects/           # 💻 Featured project showcase images
 ├── src/
-│   ├── components/  # Reusable components
-│   ├── lib/         # Utility functions and shared logic
-│   ├── stories/     # Storybook components
-│   ├── types/       # TypeScript type definitions
-│   ├── App.tsx      # Main App component
-│   ├── index.css    # Global styles
-│   └── main.tsx     # Entry point
+│   ├── components/         # 🧩 Core UI Components
+│   │   ├── ui/             # 🧱 Shadcn/UI primitive components
+│   │   ├── HeroSection.tsx # 🏠 Main landing hero component
+│   │   ├── InterstellarBackground.tsx # 🚀 Three.js 3D Background Engine
+│   │   ├── ProjectGalaxy.tsx # 🌌 Projects showcase component
+│   │   └── ...
+│   ├── lib/                # 🛠️ Utility functions & shared logic
+│   ├── types/              # 🏷️ TypeScript type definitions
+│   ├── App.tsx             # ⚙️ Root Application component
+│   ├── index.css           # 🎨 Global CSS & Tailwind imports
+│   └── main.tsx            # ⚡ Application Entry point
+├── vite.config.ts          # ⚙️ Vite & Three.js configuration
 └── ...
 ```
+
+## 🌌 Interstellar 3D Background
+
+The portfolio features a high-performance 3D stellar environment built from the ground up to provide an immersive navigation experience.
+
+### 📺 Demo
+
+**Background Preview (Three.js)**
+![Three.js Background Preview](/public/demo/threejs-background-preview.png)
+
+**Video Recording**
+![3D Background in Action](/public/demo/threejs-background-demo.webp)
+
+### 🛠️ Technical Details
+- **Engine**: [InterstellarBackground.tsx](file:///c:/Users/flexycode/Desktop/galaxy-portfolio/src/components/InterstellarBackground.tsx) (Three.js WebGLRenderer)
+- **Geometry**: Custom `SphereGeometry` for planets and `PlaneGeometry` for iconic ships.
+- **Lighting**: `AmbientLight` and `PointLight` for cinematic highlights.
+- **Overlays**: Integrated blockchain labels using Framer Motion on a separate UI layer for crisp text rendering.
 
 ## 🌟 Featured Projects
 
