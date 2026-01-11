@@ -71,35 +71,57 @@ const InterstellarBackground = () => {
 
         const loader = new THREE.TextureLoader();
 
-        // --- Distant Spiral Galaxy ---
-        const galaxyTexture = loader.load("/interstellar/spiral_galaxy.png");
-        const galaxyGeometry = new THREE.PlaneGeometry(800, 800);
+        // --- Galaxy Cycle System ---
+        const galaxyTextures = [
+            loader.load("/interstellar/galaxy_blue.png"),
+            loader.load("/interstellar/galaxy_gold.png"),
+            loader.load("/interstellar/galaxy_purple.png"),
+            loader.load("/interstellar/galaxy_red.png")
+        ];
+
+        // Galaxy Material & Mesh
+        const galaxyGeometry = new THREE.PlaneGeometry(1600, 1600);
         const galaxyMaterial = new THREE.MeshBasicMaterial({
-            map: galaxyTexture,
+            map: galaxyTextures[0],
             transparent: true,
-            opacity: 0.6,
+            opacity: 0, // Start invisible for fade-in
             depthWrite: false,
             blending: THREE.AdditiveBlending
         });
         const galaxy = new THREE.Mesh(galaxyGeometry, galaxyMaterial);
-        galaxy.position.set(200, 100, -1500);
+        galaxy.position.set(0, 50, -1800);
         galaxy.rotation.x = -Math.PI / 4;
+        galaxy.renderOrder = -2;
         scene.add(galaxy);
 
+        // Cycle State
+        let galaxyIndex = 0;
+        let galaxyState: 'FADE_IN' | 'VISIBLE' | 'FADE_OUT' | 'SWAP' = 'FADE_IN';
+        let galaxyTimer = 0;
+        const FADE_DURATION = 3000; // 3s fade
+        const VISIBLE_DURATION = 15000; // 15s hold
+
         // --- Starfield ---
-        const starCount = 4000;
+        const starCount = 5000; // Increased count
         const starGeometry = new THREE.BufferGeometry();
         const starPositions = new Float32Array(starCount * 3);
         const starSpeeds = new Float32Array(starCount);
         for (let i = 0; i < starCount; i++) {
-            starPositions[i * 3] = (Math.random() - 0.5) * 1500;
-            starPositions[i * 3 + 1] = (Math.random() - 0.5) * 1500;
-            starPositions[i * 3 + 2] = Math.random() * -1500;
-            starSpeeds[i] = Math.random() * 3 + 1.5;
+            starPositions[i * 3] = (Math.random() - 0.5) * 2000;
+            starPositions[i * 3 + 1] = (Math.random() - 0.5) * 2000;
+            starPositions[i * 3 + 2] = Math.random() * -2000;
+            starSpeeds[i] = Math.random() * 3 + 2; // Faster stars
         }
         starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-        const starMaterial = new THREE.PointsMaterial({ color: 0xffffff, size: 0.9, transparent: true, opacity: 0.9, depthWrite: false });
+        const starMaterial = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 1.2, // Slightly larger
+            transparent: true,
+            opacity: 0.9,
+            depthWrite: false
+        });
         const stars = new THREE.Points(starGeometry, starMaterial);
+        stars.renderOrder = -1;
         scene.add(stars);
 
         // --- Environmental Pool (Asteroids & Nebulae) ---
@@ -110,35 +132,44 @@ const InterstellarBackground = () => {
         const spawnEnvironment = (type: "asteroid" | "nebula") => {
             let mesh: THREE.Mesh;
             let speed: number;
+
             if (type === "asteroid") {
-                const size = 1 + Math.random() * 3;
+                const size = 2 + Math.random() * 5;
                 mesh = new THREE.Mesh(
                     new THREE.PlaneGeometry(size, size),
-                    new THREE.MeshBasicMaterial({ map: asteroidTexture, transparent: true, depthWrite: false, alphaTest: 0.05 })
+                    new THREE.MeshBasicMaterial({
+                        map: asteroidTexture,
+                        transparent: true,
+                        depthWrite: true, // Write depth for solid feel
+                        alphaTest: 0.5, // High cut for crisp edges
+                        side: THREE.DoubleSide
+                    })
                 );
-                speed = 5 + Math.random() * 5;
+                speed = 8 + Math.random() * 8;
+                mesh.renderOrder = 2;
             } else {
-                const size = 100 + Math.random() * 200;
+                const size = 200 + Math.random() * 300;
                 mesh = new THREE.Mesh(
                     new THREE.PlaneGeometry(size, size),
                     new THREE.MeshBasicMaterial({
                         map: dustTexture,
                         transparent: true,
-                        opacity: 0.1,
+                        opacity: 0.12,
                         depthWrite: false,
                         blending: THREE.AdditiveBlending
                     })
                 );
-                speed = 2 + Math.random() * 2;
+                speed = 3 + Math.random() * 3;
+                mesh.renderOrder = 1;
             }
 
-            const dist = 50 + Math.random() * 150;
+            const dist = 70 + Math.random() * 150;
             const angle = Math.random() * Math.PI * 2;
-            mesh.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, -1000);
+            mesh.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, -1400);
             mesh.rotation.z = Math.random() * Math.PI;
 
             scene.add(mesh);
-            activeEnvironment.push({ mesh, type, speed, rotX: Math.random() * 0.02, rotY: Math.random() * 0.02 });
+            activeEnvironment.push({ mesh, type, speed, rotX: Math.random() * 0.03, rotY: Math.random() * 0.03 });
         };
 
         // --- Celestial Objects Pool (Planets & ships) ---
@@ -147,53 +178,73 @@ const InterstellarBackground = () => {
         const spawnCelestial = () => {
             const data = CELESTIAL_OBJECTS[Math.floor(Math.random() * CELESTIAL_OBJECTS.length)];
             const texture = loader.load(data.image);
+            // Texture Filtering for crisp pixel art or smooth high-res
+            texture.minFilter = THREE.LinearMipMapLinearFilter;
+            texture.magFilter = THREE.LinearFilter;
+            texture.anisotropy = renderer.capabilities.getMaxAnisotropy();
 
             const group = new THREE.Group();
             let mesh: THREE.Mesh;
 
             if (data.type === "planet") {
-                const geometry = new THREE.SphereGeometry(data.radius || 5, 64, 64);
-                const material = new THREE.MeshStandardMaterial({ map: texture, roughness: 0.8, metalness: 0.1 });
+                const geometry = new THREE.SphereGeometry(data.radius || 5, 128, 128); // Higher poly for smoothness
+                const material = new THREE.MeshStandardMaterial({
+                    map: texture,
+                    roughness: 0.6,
+                    metalness: 0.3,
+                    emissive: new THREE.Color(0x222222), // Stronger internal light
+                    emissiveMap: texture,
+                    emissiveIntensity: 0.2
+                });
                 mesh = new THREE.Mesh(geometry, material);
 
-                // Texture offset for specific planets in sprite sheets
                 if (data.bgPos) {
                     texture.wrapS = THREE.RepeatWrapping;
-                    texture.offset.set(0.5, 0); // Simplified sprite logic for 2-item sheets
+                    texture.offset.set(0.5, 0);
                     texture.repeat.set(0.5, 1);
                 }
             } else {
+                // Ships
                 if (data.bgSize && data.bgPos) {
                     const widthPerc = parseFloat(data.bgSize);
                     const heightPerc = parseFloat(data.bgSize.split(" ")[1]) || 100;
                     texture.repeat.set(100 / widthPerc, 100 / heightPerc);
-
                     const xOffset = parseFloat(data.bgPos);
                     const yOffset = parseFloat(data.bgPos.split(" ")[1]) || 0;
                     texture.offset.set(xOffset / 100, (100 - yOffset - (100 / (100 / heightPerc))) / 100);
                 }
                 const geometry = new THREE.PlaneGeometry(data.size![0], data.size![1]);
+
+                // HIGH FIDELITY MATERIAL SETTINGS
                 const material = new THREE.MeshBasicMaterial({
                     map: texture,
                     transparent: true,
-                    alphaTest: 0.1,
+                    alphaTest: 0.6, // AGGRESSIVE CUT to remove square borders
                     side: THREE.DoubleSide,
-                    depthWrite: false
+                    depthWrite: true, // Shadows & Occlusion correct
                 });
                 mesh = new THREE.Mesh(geometry, material);
             }
 
             group.add(mesh);
+            group.renderOrder = 10; // Absoluate Foreground
+
             const angle = Math.random() * Math.PI * 2;
-            const dist = 40 + Math.random() * 60;
-            group.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, -800);
+            const dist = 30 + Math.random() * 40; // Closer trajectory
+            group.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, -900);
+
+            // Random initial rotation for ships to look dynamic
+            if (data.type !== "planet") {
+                group.rotation.z = (Math.random() - 0.5) * 0.5;
+                group.rotation.x = (Math.random() - 0.5) * 0.5;
+            }
 
             scene.add(group);
             activeObjects.push({
                 mesh: group,
-                speed: 2 + Math.random() * 2,
-                driftX: (group.position.x / 100) * 0.6,
-                driftY: (group.position.y / 100) * 0.6
+                speed: 3.5 + Math.random() * 2.5, // Faster
+                driftX: (group.position.x / 100) * 0.2, // Tighter drift
+                driftY: (group.position.y / 100) * 0.2
             });
         };
 
@@ -201,24 +252,64 @@ const InterstellarBackground = () => {
 
         // --- Animation Loop ---
         let animationFrameId: number;
+        let lastTime = 0;
         let lastSpawn = 0;
         let lastEnvSpawn = 0;
 
         const animate = (time: number) => {
-            const delta = 0.016;
+            const delta = time - lastTime;
+            lastTime = time;
 
-            // 1. Galaxy Rotation
-            galaxy.rotation.z += 0.0005;
+            // --- Galaxy Cycle Logic ---
+            galaxyTimer += delta;
 
-            // 2. Camera Roving (Cinematic feel)
-            camera.position.x = Math.sin(time * 0.0005) * 5;
-            camera.position.y = Math.cos(time * 0.0003) * 5;
-            camera.lookAt(0, 0, -500);
+            galaxy.rotation.z += 0.0002;
+
+            // Roving
+            galaxy.position.x = Math.sin(time * 0.0002) * 50;
+            galaxy.position.y = Math.cos(time * 0.00015) * 30;
+
+            switch (galaxyState) {
+                case 'FADE_IN':
+                    if (galaxyMaterial.opacity < 0.6) {
+                        galaxyMaterial.opacity += delta / FADE_DURATION * 0.6; // Fade to 0.6
+                    } else {
+                        galaxyMaterial.opacity = 0.6;
+                        galaxyState = 'VISIBLE';
+                        galaxyTimer = 0;
+                    }
+                    break;
+                case 'VISIBLE':
+                    if (galaxyTimer > VISIBLE_DURATION) {
+                        galaxyState = 'FADE_OUT';
+                    }
+                    break;
+                case 'FADE_OUT':
+                    if (galaxyMaterial.opacity > 0) {
+                        galaxyMaterial.opacity -= delta / FADE_DURATION * 0.6; // Fade from 0.6 to 0
+                    } else {
+                        galaxyMaterial.opacity = 0;
+                        galaxyState = 'SWAP';
+                    }
+                    break;
+                case 'SWAP':
+                    galaxyIndex = (galaxyIndex + 1) % galaxyTextures.length;
+                    galaxyMaterial.map = galaxyTextures[galaxyIndex];
+                    // Reset or change rotation slightly for variety
+                    galaxy.rotation.z = Math.random() * Math.PI;
+                    galaxyState = 'FADE_IN';
+                    break;
+            }
+
+            // 2. Camera Roving
+            camera.position.x = Math.sin(time * 0.0005) * 8;
+            camera.position.y = Math.cos(time * 0.0003) * 8;
+            camera.lookAt(0, 0, -600);
 
             // 3. Move Stars
             const pos = starGeometry.attributes.position.array as Float32Array;
             for (let i = 0; i < starCount; i++) {
-                pos[i * 3 + 2] += starSpeeds[i] * 3;
+                pos[i * 3 + 2] += starSpeeds[i] * (delta / 16); // Scale speed by delta
                 if (pos[i * 3 + 2] > 150) {
                     pos[i * 3 + 2] = -1500;
                     pos[i * 3] = (Math.random() - 0.5) * 1500;
