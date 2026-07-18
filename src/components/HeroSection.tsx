@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowDown, Github, Linkedin, Twitter } from "lucide-react";
 import InterstellarBackground from "./InterstellarBackground";
@@ -22,6 +22,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   ctaText = "View My Work",
   onCtaClick = () => console.log("CTA clicked"),
 }) => {
+  const [btnPosition, setBtnPosition] = useState({ x: 0, y: 0 });
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden bg-black text-white">
       {/* Animated background with particles */}
@@ -36,7 +38,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <motion.div
             className="mb-10 flex flex-col items-center text-center lg:mb-0 lg:w-1/2 lg:items-start lg:text-left"
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
           >
             <h1 className="mb-4 text-4xl font-bold tracking-tight text-cyan-400 md:text-5xl lg:text-6xl">
@@ -47,49 +50,66 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             </h2>
             <p className="mb-8 max-w-lg text-gray-300">{bio}</p>
             <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
-              <Button
-                onClick={onCtaClick}
-                className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-600 hover:to-blue-700"
-                size="lg"
+              <motion.div
+                animate={{ x: btnPosition.x, y: btnPosition.y }}
+                transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left - rect.width / 2;
+                  const y = e.clientY - rect.top - rect.height / 2;
+                  // Move button 20% of the distance to the edge
+                  setBtnPosition({ x: x * 0.2, y: y * 0.2 });
+                }}
+                onMouseLeave={() => setBtnPosition({ x: 0, y: 0 })}
               >
-                {ctaText}
-              </Button>
+                <Button
+                  onClick={onCtaClick}
+                  className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-600 hover:to-blue-700"
+                  size="lg"
+                >
+                  {ctaText}
+                </Button>
+              </motion.div>
               <div className="flex items-center justify-center space-x-4">
                 <motion.a
                   href="https://github.com/flexyledger"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
-                  <Github size={20} />
+                  <span className="sr-only">Flexyledger GitHub</span>
+                  <Github size={20} aria-hidden="true" />
                 </motion.a>
                 <motion.a
                   href="https://github.com/flexycode"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300"
+                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
-                  <Github size={20} />
+                  <span className="sr-only">Flexycode GitHub</span>
+                  <Github size={20} aria-hidden="true" />
                 </motion.a>
                 <motion.a
                   href="https://linkedin.com/in/flexycode"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
-                  <Linkedin size={20} />
+                  <span className="sr-only">LinkedIn Profile</span>
+                  <Linkedin size={20} aria-hidden="true" />
                 </motion.a>
                 <motion.a
                   href="https://twitter.com/flexyledger"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300"
+                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
                 >
-                  <Twitter size={20} />
+                  <span className="sr-only">Twitter Profile</span>
+                  <Twitter size={20} aria-hidden="true" />
                 </motion.a>
               </div>
             </div>
@@ -99,7 +119,8 @@ const HeroSection: React.FC<HeroSectionProps> = ({
           <motion.div
             className="relative h-64 w-64 md:h-80 md:w-80 lg:h-96 lg:w-96"
             initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
             <div className="absolute inset-0 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 blur-lg opacity-70"></div>

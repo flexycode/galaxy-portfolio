@@ -51,6 +51,10 @@ module.exports = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        galaxy: {
+          blue: "hsl(var(--galaxy-blue))",
+          purple: "hsl(var(--galaxy-purple))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

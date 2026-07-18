@@ -1,6 +1,6 @@
 import * as React from "react";
-import { useState, Suspense, useCallback } from "react";
-import { motion } from "framer-motion";
+import { useState, Suspense, useCallback, useRef } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 // Import UI components directly with proper types
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -79,6 +79,142 @@ interface Project {
 
 type ProjectCategory = 'ai' | 'cybersecurity' | 'blockchain' | 'fullstack';
 type ProjectFilter = ProjectCategory | 'all';
+
+// Project Card with 3D Tilt Effect
+const ProjectCard = React.forwardRef<HTMLDivElement, { project: Project; onClick: () => void }>(({ project, onClick }, forwardedRef) => {
+  const innerRef = useRef<HTMLDivElement>(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
+  
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!innerRef.current) return;
+    const rect = innerRef.current.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
+  return (
+    <motion.div
+      ref={forwardedRef}
+      layout
+      initial={{ opacity: 0, scale: 0.8 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.8 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ scale: 1.03, y: -5 }}
+      className="project-star perspective-1000"
+    >
+      <motion.div
+        ref={innerRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        onClick={onClick}
+        onKeyDown={handleKeyDown}
+        tabIndex={0}
+        role="button"
+        aria-label={`View details for ${project.name}`}
+        className="cursor-pointer rounded-xl overflow-hidden relative group h-full shadow-lg focus:outline-none focus-visible:ring-4 focus-visible:ring-cyan-500 focus-visible:ring-offset-4 focus-visible:ring-offset-black"
+      >
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70 z-10" style={{ transform: "translateZ(10px)" }}></div>
+        <div className="h-64 relative overflow-hidden" style={{ transform: "translateZ(20px)" }}>
+          <img
+            src={project.image}
+            alt={project.name}
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.currentTarget.src = 'https://via.placeholder.com/400x256?text=Image+Not+Available';
+            }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 z-20" style={{ transform: "translateZ(30px)" }}></div>
+
+        <div className="absolute bottom-0 left-0 right-0 p-6 z-30" style={{ transform: "translateZ(40px)" }}>
+          <Badge
+            className={`mb-2 ${project.category === "ai"
+              ? "bg-purple-600"
+              : project.category === "cybersecurity"
+                ? "bg-red-600"
+                : project.category === "blockchain"
+                  ? "bg-blue-600"
+                  : "bg-green-600"
+              }`}
+          >
+            {project.category === "ai"
+              ? "AI/ML"
+              : project.category === "cybersecurity"
+                ? "Cybersecurity"
+                : project.category === "blockchain"
+                  ? "Blockchain"
+                  : "Full Stack"}
+          </Badge>
+          <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
+            {project.name}
+          </h3>
+          <p className="text-gray-300 text-sm line-clamp-2">
+            {project.description}
+          </p>
+        </div>
+
+        <div className="absolute top-0 left-0 right-0 p-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ transform: "translateZ(50px)" }}>
+          <div className="flex justify-end space-x-2">
+            {project.github && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="bg-black/50 border-white/20 h-8 w-8 p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(project.github, '_blank');
+                }}
+              >
+                <Github className="h-4 w-4" />
+              </Button>
+            )}
+            {project.liveUrl && (
+              <Button
+                size="sm"
+                variant="outline"
+                className="bg-black/50 border-white/20 h-8 w-8 p-0"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.open(project.liveUrl, '_blank');
+                }}
+              >
+                <ExternalLink className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+});
+ProjectCard.displayName = "ProjectCard";
 
 const ProjectGalaxy: React.FC = () => {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
@@ -483,7 +619,8 @@ const ProjectGalaxy: React.FC = () => {
       <div className="relative z-10 max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
@@ -537,98 +674,22 @@ const ProjectGalaxy: React.FC = () => {
 
         <div className="galaxy-container relative">
           <motion.div
+            layout
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true, amount: 0.1 }}
             transition={{ staggerChildren: 0.1, delayChildren: 0.3 }}
           >
-            {filteredProjects.map((project) => (
-              <motion.div
-                key={project.id}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
-                whileHover={{ scale: 1.03, y: -5 }}
-                className="project-star"
-              >
-                <div
+            <AnimatePresence mode="popLayout">
+              {filteredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
                   onClick={() => handleProjectClick(project)}
-                  className={`cursor-pointer rounded-xl overflow-hidden relative group`}
-                >
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-70 z-10"></div>
-                  <div className="h-64 relative overflow-hidden">
-                    <img
-                      src={project.image}
-                      alt={project.name}
-                      className="w-full h-full object-cover"
-                      onError={(e) => {
-                        // Fallback to a placeholder if image fails to load
-                        e.currentTarget.src = 'https://via.placeholder.com/400x256?text=Image+Not+Available';
-                      }}
-                    />
-                  </div>
-                  <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 z-20"></div>
-
-                  <div className="absolute bottom-0 left-0 right-0 p-6 z-30">
-                    <Badge
-                      className={`mb-2 ${project.category === "ai"
-                        ? "bg-purple-600"
-                        : project.category === "cybersecurity"
-                          ? "bg-red-600"
-                          : project.category === "blockchain"
-                            ? "bg-blue-600"
-                            : "bg-green-600"
-                        }`}
-                    >
-                      {project.category === "ai"
-                        ? "AI/ML"
-                        : project.category === "cybersecurity"
-                          ? "Cybersecurity"
-                          : project.category === "blockchain"
-                            ? "Blockchain"
-                            : "Full Stack"}
-                    </Badge>
-                    <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
-                      {project.name}
-                    </h3>
-                    <p className="text-gray-300 text-sm line-clamp-2">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  <div className="absolute top-0 left-0 right-0 p-4 z-30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="flex justify-end space-x-2">
-                      {project.github && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="bg-black/50 border-white/20 h-8 w-8 p-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            window.open(project.github, '_blank');
-                          }}
-                        >
-                          <Github className="h-4 w-4" />
-                        </Button>
-                      )}
-                      {project.liveUrl && (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="bg-black/50 border-white/20 h-8 w-8 p-0"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            window.open(project.liveUrl, '_blank');
-                          }}
-                        >
-                          <ExternalLink className="h-4 w-4" />
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                />
+              ))}
+            </AnimatePresence>
           </motion.div>
         </div>
       </div>

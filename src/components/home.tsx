@@ -4,6 +4,7 @@ import HeroSection from "./HeroSection";
 import ProjectGalaxy from "./ProjectGalaxy";
 import TechCredentials from "./TechCredentials";
 import BlogSection from "./BlogSection";
+import GlowCursor from "./GlowCursor";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
 
@@ -24,6 +25,7 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
+      <GlowCursor />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
