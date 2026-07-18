@@ -1,6 +1,7 @@
-import { Suspense, useState, useEffect } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import { Routes, Route, useRoutes, RouteObject } from "react-router-dom";
 import Home from "./components/home";
+import BootLoader from "./components/BootLoader";
 
 // Type for tempo routes
 interface TempoRoutesComponentProps {
@@ -8,6 +9,12 @@ interface TempoRoutesComponentProps {
 }
 
 function App() {
+  const [isBooting, setIsBooting] = useState(true);
+
+  const handleBootComplete = useCallback(() => {
+    setIsBooting(false);
+  }, []);
+
   // Tempo routes are only loaded in development when explicitly enabled
   const TempoRoutes = () => {
     if (!import.meta.env.DEV || import.meta.env.VITE_TEMPO !== "true") {
@@ -54,22 +61,28 @@ function App() {
   };
 
   return (
-    <Suspense 
-      fallback={
-        <div className="flex items-center justify-center min-h-screen bg-black">
-          <div className="animate-pulse text-cyan-400">Loading...</div>
-        </div>
-      }
-    >
-      <Routes>
-        <Route path="/" element={<Home />} />
-        {/* Add more routes here as needed */}
-      </Routes>
-      
-      {/* Include TempoRoutes component */}
-      <TempoRoutes />
-    </Suspense>
+    <>
+      {/* Themed boot-sequence preloader */}
+      {isBooting && <BootLoader onComplete={handleBootComplete} />}
+
+      <Suspense
+        fallback={
+          <div className="flex items-center justify-center min-h-screen bg-black">
+            <div className="animate-pulse text-cyan-400">Loading...</div>
+          </div>
+        }
+      >
+        <Routes>
+          <Route path="/" element={<Home />} />
+          {/* Add more routes here as needed */}
+        </Routes>
+
+        {/* Include TempoRoutes component */}
+        <TempoRoutes />
+      </Suspense>
+    </>
   );
 }
 
 export default App;
+
