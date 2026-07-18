@@ -167,12 +167,12 @@ const MobileNavItem = ({
   </motion.button>
 );
 
-const SocialLink = ({ href, label }: { href: string; label: string }) => (
+const SocialLink = ({ href, label, className }: { href: string; label: string; className?: string }) => (
   <a
     href={href}
     target="_blank"
     rel="noopener noreferrer"
-    className="text-gray-400 hover:text-white transition-colors"
+    className={className || "text-gray-400 hover:text-white transition-colors"}
   >
     {label}
   </a>
