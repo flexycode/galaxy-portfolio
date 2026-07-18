@@ -120,7 +120,7 @@ const TechCredentials: React.FC<TechCredentialsProps> = ({
       logo: "https://avatars.githubusercontent.com/u/106673693?v=4",
     },
   ],
-  cvLink = "https://drive.google.com/file/d/1F58w47WshQRzhjNTb_WppzLd22gwdexQ/view",
+  cvLink = "https://drive.google.com/file/d/1QNsbyNZFQkOLBt3BzYYzHQJikep7uxdg/view",
 }) => {
   const [activeCategory, setActiveCategory] = useState<string>("All");
   const categories = ["All", ...new Set(skills.map((skill) => skill.category))];
