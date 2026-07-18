@@ -65,6 +65,15 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   <Github size={20} />
                 </motion.a>
                 <motion.a
+                  href="https://github.com/flexycode"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.1 }}
+                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300"
+                >
+                  <Github size={20} />
+                </motion.a>
+                <motion.a
                   href="https://linkedin.com/in/flexycode"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -78,7 +87,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white"
+                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300"
                 >
                   <Twitter size={20} />
                 </motion.a>
