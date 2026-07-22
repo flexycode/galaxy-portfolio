@@ -1,6 +1,7 @@
 import * as React from "react";
 import { useState, Suspense, useCallback, useRef } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { CATEGORY_COLORS, CATEGORY_LABELS, type ProjectCategory } from "@/lib/categoryColors";
 
 // Import UI components directly with proper types
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -77,7 +78,6 @@ interface Project {
   liveUrl?: string;
 }
 
-type ProjectCategory = 'ai' | 'cybersecurity' | 'blockchain' | 'fullstack';
 type ProjectFilter = ProjectCategory | 'all';
 
 // Project Card with 3D Tilt Effect
@@ -108,6 +108,8 @@ const ProjectCard = React.forwardRef<HTMLDivElement, { project: Project; onClick
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+    // Reset cursor category
+    window.dispatchEvent(new CustomEvent('cursor-category-reset'));
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -127,6 +129,16 @@ const ProjectCard = React.forwardRef<HTMLDivElement, { project: Project; onClick
       transition={{ duration: 0.5 }}
       whileHover={{ scale: 1.03, y: -5 }}
       className="project-star perspective-1000"
+      data-category={project.category}
+      onMouseEnter={(e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        window.dispatchEvent(new CustomEvent('cursor-category', {
+          detail: {
+            category: project.category,
+            bounds: { x: rect.x, y: rect.y, width: rect.width, height: rect.height }
+          }
+        }));
+      }}
     >
       <motion.div
         ref={innerRef}
@@ -155,22 +167,9 @@ const ProjectCard = React.forwardRef<HTMLDivElement, { project: Project; onClick
 
         <div className="absolute bottom-0 left-0 right-0 p-6 z-30" style={{ transform: "translateZ(40px)" }}>
           <Badge
-            className={`mb-2 ${project.category === "ai"
-              ? "bg-purple-600"
-              : project.category === "cybersecurity"
-                ? "bg-red-600"
-                : project.category === "blockchain"
-                  ? "bg-blue-600"
-                  : "bg-green-600"
-              }`}
+            className={`mb-2 ${CATEGORY_COLORS[project.category].tw}`}
           >
-            {project.category === "ai"
-              ? "AI/ML"
-              : project.category === "cybersecurity"
-                ? "Cybersecurity"
-                : project.category === "blockchain"
-                  ? "Blockchain"
-                  : "Full Stack"}
+            {CATEGORY_LABELS[project.category]}
           </Badge>
           <h3 className="text-xl font-bold text-white mb-1 group-hover:text-blue-300 transition-colors">
             {project.name}

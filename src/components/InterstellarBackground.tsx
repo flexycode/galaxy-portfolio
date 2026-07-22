@@ -189,6 +189,39 @@ const InterstellarBackground = () => {
         galaxy.renderOrder = -2;
         scene.add(galaxy);
 
+        // --- Distant Background Giants (Phase 5) ---
+        // Huge, barely-moving objects far behind the action to sell scale/depth.
+        // Positioned within the camera's FOV (camera looks at 0,0,-600) and
+        // billboarded to face the camera. Drift via sinusoidal x/y, no rotation.
+        const distantGiants: { mesh: THREE.Mesh, driftFreqX: number, driftFreqY: number, driftAmpX: number, driftAmpY: number, baseX: number, baseY: number }[] = [];
+        const giantGeo1 = new THREE.PlaneGeometry(800, 800);
+        const giantMat1 = new THREE.MeshBasicMaterial({
+            map: cachedLoad("/interstellar/planet_gas_giants.png"),
+            transparent: true,
+            opacity: 0.15,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
+        const giant1 = new THREE.Mesh(giantGeo1, giantMat1);
+        giant1.position.set(-200, 100, -2500);
+        giant1.lookAt(camera.position);
+        scene.add(giant1);
+        distantGiants.push({ mesh: giant1, driftFreqX: 0.00008, driftFreqY: 0.00006, driftAmpX: 80, driftAmpY: 40, baseX: -200, baseY: 100 });
+
+        const giantGeo2 = new THREE.PlaneGeometry(1200, 1200);
+        const giantMat2 = new THREE.MeshBasicMaterial({
+            map: cachedLoad("/interstellar/galaxy_purple.png"),
+            transparent: true,
+            opacity: 0.1,
+            depthWrite: false,
+            blending: THREE.AdditiveBlending
+        });
+        const giant2 = new THREE.Mesh(giantGeo2, giantMat2);
+        giant2.position.set(300, -150, -2800);
+        giant2.lookAt(camera.position);
+        scene.add(giant2);
+        distantGiants.push({ mesh: giant2, driftFreqX: 0.00005, driftFreqY: 0.00007, driftAmpX: 100, driftAmpY: 50, baseX: 300, baseY: -150 });
+
         // Cycle State — durations adjusted for reduced motion
         let galaxyIndex = 0;
         let galaxyState: 'FADE_IN' | 'VISIBLE' | 'FADE_OUT' | 'SWAP' = 'FADE_IN';
@@ -308,7 +341,19 @@ const InterstellarBackground = () => {
             heroPool.set(type, [createHeroGroup(type), createHeroGroup(type)]);
         }
 
-        const activeHeroes: { group: THREE.Group; type: string; speed: number; rotSpeed: { x: number, y: number, z: number } }[] = [];
+        const activeHeroes: { 
+            group: THREE.Group; 
+            type: string; 
+            speed: number; 
+            rotSpeed: { x: number, y: number, z: number };
+            isOrbital: boolean;
+            orbitAngle: number;
+            orbitSpeed: number;
+            orbitRadiusX: number;
+            orbitRadiusY: number;
+            orbitCenterX: number;
+            orbitCenterY: number;
+        }[] = [];
 
         const spawnHero = () => {
             // 10% Sun, 20% Saturn, 20% Station, 25% Proxima, 25% Alien
@@ -353,34 +398,103 @@ const InterstellarBackground = () => {
                     x: Math.random() * 0.005,
                     y: 0.01 + Math.random() * 0.01, // Continual spin
                     z: 0
-                }
+                },
+                isOrbital: type !== 'sun',
+                orbitAngle: Math.random() * Math.PI * 2,
+                orbitSpeed: 0.001 + Math.random() * 0.002,
+                orbitRadiusX: 60 + Math.random() * 60,
+                orbitRadiusY: 30 + Math.random() * 30,
+                orbitCenterX: xPos,
+                orbitCenterY: yPos
             });
         };
 
 
-        // --- Starfield ---
-        const starCount = isLowEnd ? 2500 : 5000;
-        const starGeometry = new THREE.BufferGeometry();
-        const starPositions = new Float32Array(starCount * 3);
-        const starSpeeds = new Float32Array(starCount);
+        // --- Multi-Layer Starfield (Phase 6) ---
         const starSpeedMult = prefersReducedMotion ? 0.2 : 1;
-        for (let i = 0; i < starCount; i++) {
-            starPositions[i * 3] = (Math.random() - 0.5) * 2000;
-            starPositions[i * 3 + 1] = (Math.random() - 0.5) * 2000;
-            starPositions[i * 3 + 2] = Math.random() * -2000;
-            starSpeeds[i] = (Math.random() * 3 + 2) * starSpeedMult;
+
+        // Layer 1: Distant — spherically distributed, small, dim, very slow
+        const distantStarCount = isLowEnd ? 1500 : 3000;
+        const distantStarGeo = new THREE.BufferGeometry();
+        const distantStarPositions = new Float32Array(distantStarCount * 3);
+        const distantStarSpeeds = new Float32Array(distantStarCount);
+        const distantTwinklePhase = new Float32Array(distantStarCount);
+        const distantStarBaseSizes = new Float32Array(distantStarCount);
+        for (let i = 0; i < distantStarCount; i++) {
+            // Spherical distribution (full 4π steradians)
+            const theta = Math.random() * Math.PI * 2;
+            const phi = Math.acos(2 * Math.random() - 1);
+            const r = 800 + Math.random() * 1200;
+            distantStarPositions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+            distantStarPositions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+            distantStarPositions[i * 3 + 2] = r * Math.cos(phi) - 600; // Center around look-at
+            distantStarSpeeds[i] = (Math.random() * 0.5 + 0.2) * starSpeedMult;
+            distantTwinklePhase[i] = Math.random() * Math.PI * 2;
+            distantStarBaseSizes[i] = 0.3 + Math.random() * 0.4;
         }
-        starGeometry.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
-        const starMaterial = new THREE.PointsMaterial({
-            color: 0xffffff,
-            size: 1.2, // Slightly larger
+        distantStarGeo.setAttribute('position', new THREE.BufferAttribute(distantStarPositions, 3));
+        distantStarGeo.setAttribute('size', new THREE.BufferAttribute(distantStarBaseSizes.slice(), 1));
+        const distantStarMat = new THREE.PointsMaterial({
+            color: 0xddeeff,
+            size: 0.5,
             transparent: true,
-            opacity: 0.9,
+            opacity: 0.4,
+            depthWrite: false,
+            sizeAttenuation: true
+        });
+        const distantStars = new THREE.Points(distantStarGeo, distantStarMat);
+        distantStars.renderOrder = -3;
+        scene.add(distantStars);
+
+        // Layer 2: Mid — forward-biased box, current-ish size/speed
+        const midStarCount = isLowEnd ? 1000 : 2000;
+        const midStarGeo = new THREE.BufferGeometry();
+        const midStarPositions = new Float32Array(midStarCount * 3);
+        const midStarSpeeds = new Float32Array(midStarCount);
+        const midTwinklePhase = new Float32Array(midStarCount);
+        const midStarBaseSizes = new Float32Array(midStarCount);
+        for (let i = 0; i < midStarCount; i++) {
+            midStarPositions[i * 3] = (Math.random() - 0.5) * 2000;
+            midStarPositions[i * 3 + 1] = (Math.random() - 0.5) * 2000;
+            midStarPositions[i * 3 + 2] = Math.random() * -2000;
+            midStarSpeeds[i] = (Math.random() * 3 + 2) * starSpeedMult;
+            midTwinklePhase[i] = Math.random() * Math.PI * 2;
+            midStarBaseSizes[i] = 0.8 + Math.random() * 0.8;
+        }
+        midStarGeo.setAttribute('position', new THREE.BufferAttribute(midStarPositions, 3));
+        const midStarMat = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 1.2,
+            transparent: true,
+            opacity: 0.8,
             depthWrite: false
         });
-        const stars = new THREE.Points(starGeometry, starMaterial);
-        stars.renderOrder = -1;
-        scene.add(stars);
+        const midStars = new THREE.Points(midStarGeo, midStarMat);
+        midStars.renderOrder = -2;
+        scene.add(midStars);
+
+        // Layer 3: Near — narrow forward cone, larger, faster, sparser
+        const nearStarCount = isLowEnd ? 150 : 300;
+        const nearStarGeo = new THREE.BufferGeometry();
+        const nearStarPositions = new Float32Array(nearStarCount * 3);
+        const nearStarSpeeds = new Float32Array(nearStarCount);
+        for (let i = 0; i < nearStarCount; i++) {
+            nearStarPositions[i * 3] = (Math.random() - 0.5) * 600;
+            nearStarPositions[i * 3 + 1] = (Math.random() - 0.5) * 600;
+            nearStarPositions[i * 3 + 2] = Math.random() * -1500;
+            nearStarSpeeds[i] = (Math.random() * 5 + 5) * starSpeedMult;
+        }
+        nearStarGeo.setAttribute('position', new THREE.BufferAttribute(nearStarPositions, 3));
+        const nearStarMat = new THREE.PointsMaterial({
+            color: 0xffffff,
+            size: 2.5,
+            transparent: true,
+            opacity: 1.0,
+            depthWrite: false
+        });
+        const nearStars = new THREE.Points(nearStarGeo, nearStarMat);
+        nearStars.renderOrder = -1;
+        scene.add(nearStars);
 
         // --- Environment Object Pools (Asteroids & Nebulae) ---
         // Shared geometries and materials — allocated once, reused by all pool members
@@ -402,7 +516,7 @@ const InterstellarBackground = () => {
         });
 
         const ASTEROID_POOL_SIZE = 20;
-        const NEBULA_POOL_SIZE = 10;
+        const NEBULA_POOL_SIZE = 20; // Increased for volumetric nebula (2-3 planes per spawn)
         const asteroidPool: THREE.Mesh[] = [];
         const nebulaPool: THREE.Mesh[] = [];
 
@@ -413,41 +527,78 @@ const InterstellarBackground = () => {
             nebulaPool.push(new THREE.Mesh(sharedNebulaGeo, sharedNebulaMat));
         }
 
-        const activeEnvironment: { mesh: THREE.Mesh; type: string; speed: number; rotX: number; rotY: number }[] = [];
+        const activeEnvironment: { meshes: THREE.Mesh[]; type: string; speed: number; rotX: number; rotY: number }[] = [];
 
         const spawnEnvironment = (type: "asteroid" | "nebula") => {
             const pool = type === "asteroid" ? asteroidPool : nebulaPool;
             if (pool.length === 0) return; // No available meshes — skip this spawn
 
-            const mesh = pool.pop()!;
-
             if (type === "asteroid") {
+                const mesh = pool.pop()!;
                 const size = 2 + Math.random() * 5;
                 mesh.scale.set(size, size, 1);
                 mesh.renderOrder = 2;
+                const dist = 70 + Math.random() * 150;
+                const angle = Math.random() * Math.PI * 2;
+                mesh.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, -1400);
+                mesh.rotation.set(0, 0, Math.random() * Math.PI);
+                scene.add(mesh);
+                activeEnvironment.push({
+                    meshes: [mesh],
+                    type,
+                    speed: 8 + Math.random() * 8,
+                    rotX: Math.random() * 0.03,
+                    rotY: Math.random() * 0.03
+                });
             } else {
-                const size = 200 + Math.random() * 300;
-                mesh.scale.set(size, size, 1);
-                mesh.renderOrder = 1;
+                // Volumetric nebula: spawn 2–3 planes at staggered depths
+                const layerCount = 2 + (Math.random() > 0.5 ? 1 : 0);
+                if (pool.length < layerCount) return; // Not enough in pool
+                const meshes: THREE.Mesh[] = [];
+                const baseSize = 200 + Math.random() * 300;
+                const dist = 70 + Math.random() * 150;
+                const angle = Math.random() * Math.PI * 2;
+                const baseX = Math.cos(angle) * dist;
+                const baseY = Math.sin(angle) * dist;
+                const baseZ = -1400;
+
+                for (let layer = 0; layer < layerCount; layer++) {
+                    const mesh = pool.pop()!;
+                    const sizeVariation = baseSize * (0.8 + Math.random() * 0.4);
+                    mesh.scale.set(sizeVariation, sizeVariation, 1);
+                    mesh.renderOrder = 1;
+                    const zOffset = (layer - 1) * (60 + Math.random() * 90);
+                    mesh.position.set(
+                        baseX + (Math.random() - 0.5) * 40,
+                        baseY + (Math.random() - 0.5) * 40,
+                        baseZ + zOffset
+                    );
+                    mesh.rotation.set(0, 0, Math.random() * Math.PI * 2);
+                    scene.add(mesh);
+                    meshes.push(mesh);
+                }
+                activeEnvironment.push({
+                    meshes,
+                    type,
+                    speed: 3 + Math.random() * 3,
+                    rotX: Math.random() * 0.03,
+                    rotY: Math.random() * 0.03
+                });
             }
-
-            const dist = 70 + Math.random() * 150;
-            const angle = Math.random() * Math.PI * 2;
-            mesh.position.set(Math.cos(angle) * dist, Math.sin(angle) * dist, -1400);
-            mesh.rotation.set(0, 0, Math.random() * Math.PI);
-
-            scene.add(mesh);
-            activeEnvironment.push({
-                mesh,
-                type,
-                speed: type === "asteroid" ? 8 + Math.random() * 8 : 3 + Math.random() * 3,
-                rotX: Math.random() * 0.03,
-                rotY: Math.random() * 0.03
-            });
         };
 
         // --- Celestial Objects (Planets & Ships) ---
-        const activeObjects: { mesh: THREE.Group; speed: number; driftX: number; driftY: number; trail: THREE.Points | null }[] = [];
+        const activeObjects: { 
+            mesh: THREE.Group; 
+            speed: number; 
+            driftX: number; 
+            driftY: number; 
+            phaseX: number;
+            phaseY: number;
+            ampX: number;
+            ampY: number;
+            trail: THREE.Points | null 
+        }[] = [];
         const maxAnisotropy = renderer.capabilities.getMaxAnisotropy();
 
         // Geometry cache for celestial objects — keyed by descriptor, shared across instances
@@ -564,6 +715,10 @@ const InterstellarBackground = () => {
                 speed: 3.5 + Math.random() * 2.5, // Faster
                 driftX: (group.position.x / 100) * 0.2, // Tighter drift
                 driftY: (group.position.y / 100) * 0.2,
+                phaseX: Math.random() * Math.PI * 2,
+                phaseY: Math.random() * Math.PI * 2,
+                ampX: 0.5 + Math.random() * 1.5,
+                ampY: 0.5 + Math.random() * 1.5,
                 trail,
             });
         };
@@ -636,6 +791,12 @@ const InterstellarBackground = () => {
             galaxy.position.x = Math.sin(time * 0.0002) * 50;
             galaxy.position.y = Math.cos(time * 0.00015) * 30;
 
+            // Animate Distant Giants — slow sinusoidal drift, no rotation
+            for (const giant of distantGiants) {
+                giant.mesh.position.x = giant.baseX + Math.sin(time * giant.driftFreqX) * giant.driftAmpX;
+                giant.mesh.position.y = giant.baseY + Math.cos(time * giant.driftFreqY) * giant.driftAmpY;
+            }
+
             switch (galaxyState) {
                 case 'FADE_IN':
                     if (galaxyMaterial.opacity < 0.6) {
@@ -677,17 +838,53 @@ const InterstellarBackground = () => {
             camera.position.y = Math.cos(time * 0.0003) * cameraAmplitude - mouseCurrent.y * parallaxStrength;
             camera.lookAt(0, 0, -600);
 
-            // 3. Move Stars
-            const pos = starGeometry.attributes.position.array as Float32Array;
-            for (let i = 0; i < starCount; i++) {
-                pos[i * 3 + 2] += starSpeeds[i] * (delta / 16); // Scale speed by delta
-                if (pos[i * 3 + 2] > 150) {
-                    pos[i * 3 + 2] = -1500;
-                    pos[i * 3] = (Math.random() - 0.5) * 1500;
-                    pos[i * 3 + 1] = (Math.random() - 0.5) * 1500;
+            // 3. Move Stars — three layers with twinkle
+            // Distant layer: spherically distributed, very slow, with twinkle
+            const distPos = distantStarGeo.attributes.position.array as Float32Array;
+            if (!prefersReducedMotion) {
+                for (let i = 0; i < distantStarCount; i++) {
+                    distPos[i * 3 + 2] += distantStarSpeeds[i] * (delta / 16);
+                    // Re-randomize when drifted too far forward
+                    if (distPos[i * 3 + 2] > 200) {
+                        const theta = Math.random() * Math.PI * 2;
+                        const phi = Math.acos(2 * Math.random() - 1);
+                        const r = 800 + Math.random() * 1200;
+                        distPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+                        distPos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+                        distPos[i * 3 + 2] = r * Math.cos(phi) - 600;
+                    }
+                }
+                // Twinkle: oscillate the material opacity subtly
+                distantStarMat.opacity = 0.35 + 0.1 * Math.sin(time * 0.001);
+            }
+            distantStarGeo.attributes.position.needsUpdate = true;
+
+            // Mid layer: forward-biased box, standard speed, with subtle twinkle
+            const midPos = midStarGeo.attributes.position.array as Float32Array;
+            for (let i = 0; i < midStarCount; i++) {
+                midPos[i * 3 + 2] += midStarSpeeds[i] * (delta / 16);
+                if (midPos[i * 3 + 2] > 150) {
+                    midPos[i * 3 + 2] = -1500;
+                    midPos[i * 3] = (Math.random() - 0.5) * 2000;
+                    midPos[i * 3 + 1] = (Math.random() - 0.5) * 2000;
                 }
             }
-            starGeometry.attributes.position.needsUpdate = true;
+            midStarGeo.attributes.position.needsUpdate = true;
+            if (!prefersReducedMotion) {
+                midStarMat.opacity = 0.75 + 0.1 * Math.sin(time * 0.0015 + 1.0);
+            }
+
+            // Near layer: narrow cone, fast streakers
+            const nearPos = nearStarGeo.attributes.position.array as Float32Array;
+            for (let i = 0; i < nearStarCount; i++) {
+                nearPos[i * 3 + 2] += nearStarSpeeds[i] * (delta / 16);
+                if (nearPos[i * 3 + 2] > 200) {
+                    nearPos[i * 3 + 2] = -1200;
+                    nearPos[i * 3] = (Math.random() - 0.5) * 600;
+                    nearPos[i * 3 + 1] = (Math.random() - 0.5) * 600;
+                }
+            }
+            nearStarGeo.attributes.position.needsUpdate = true;
 
             // 4. Hero Objects Logic
             if (time - lastHeroSpawn > HERO_INTERVAL) {
@@ -698,6 +895,12 @@ const InterstellarBackground = () => {
             for (let i = activeHeroes.length - 1; i >= 0; i--) {
                 const obj = activeHeroes[i];
                 obj.group.position.z += obj.speed * (delta / 16); // Standardized speed
+
+                if (obj.isOrbital) {
+                    obj.orbitAngle += obj.orbitSpeed * (delta / 16);
+                    obj.group.position.x = obj.orbitCenterX + Math.cos(obj.orbitAngle) * obj.orbitRadiusX;
+                    obj.group.position.y = obj.orbitCenterY + Math.sin(obj.orbitAngle) * obj.orbitRadiusY;
+                }
 
                 // Detailed Rotation
                 obj.group.rotation.y += obj.rotSpeed.y;
@@ -733,15 +936,20 @@ const InterstellarBackground = () => {
             // Update Environment (pooled — return to pool on removal)
             for (let i = activeEnvironment.length - 1; i >= 0; i--) {
                 const obj = activeEnvironment[i];
-                obj.mesh.position.z += obj.speed * (delta / 16);
-                obj.mesh.rotation.z += obj.rotX;
-                obj.mesh.rotation.x += obj.rotY;
+                // Move all meshes in the group
+                for (const mesh of obj.meshes) {
+                    mesh.position.z += obj.speed * (delta / 16);
+                    mesh.rotation.z += obj.rotX;
+                    mesh.rotation.x += obj.rotY;
+                }
 
-                if (obj.mesh.position.z > 200) {
-                    scene.remove(obj.mesh);
-                    // Return to appropriate pool
-                    if (obj.type === "asteroid") asteroidPool.push(obj.mesh);
-                    else nebulaPool.push(obj.mesh);
+                // Check removal based on first mesh
+                if (obj.meshes[0].position.z > 200) {
+                    for (const mesh of obj.meshes) {
+                        scene.remove(mesh);
+                        if (obj.type === "asteroid") asteroidPool.push(mesh);
+                        else nebulaPool.push(mesh);
+                    }
                     activeEnvironment.splice(i, 1);
                 }
             }
@@ -749,9 +957,11 @@ const InterstellarBackground = () => {
             // Update Foreground Celestial (dispose materials + cloned textures on removal)
             for (let i = activeObjects.length - 1; i >= 0; i--) {
                 const obj = activeObjects[i];
+                obj.phaseX += 0.01 * (delta / 16);
+                obj.phaseY += 0.012 * (delta / 16);
                 obj.mesh.position.z += obj.speed * (delta / 16);
-                obj.mesh.position.x += obj.driftX;
-                obj.mesh.position.y += obj.driftY;
+                obj.mesh.position.x += obj.driftX + Math.cos(obj.phaseX) * obj.ampX * (delta / 16);
+                obj.mesh.position.y += obj.driftY + Math.sin(obj.phaseY) * obj.ampY * (delta / 16);
 
                 // Update particle trail
                 if (obj.trail) {
@@ -819,7 +1029,9 @@ const InterstellarBackground = () => {
 
             // Remove active environment from scene (pooled — no dispose needed)
             for (const obj of activeEnvironment) {
-                scene.remove(obj.mesh);
+                for (const mesh of obj.meshes) {
+                    scene.remove(mesh);
+                }
             }
 
             // Remove active heroes from scene (pooled — materials disposed below)
@@ -863,9 +1075,20 @@ const InterstellarBackground = () => {
             galaxyGeometry.dispose();
             galaxyMaterial.dispose();
 
-            // Dispose stars
-            starGeometry.dispose();
-            starMaterial.dispose();
+            // Dispose distant giants
+            for (const giant of distantGiants) {
+                scene.remove(giant.mesh);
+                giant.mesh.geometry.dispose();
+                (giant.mesh.material as THREE.Material).dispose();
+            }
+
+            // Dispose stars — three layers
+            distantStarGeo.dispose();
+            distantStarMat.dispose();
+            midStarGeo.dispose();
+            midStarMat.dispose();
+            nearStarGeo.dispose();
+            nearStarMat.dispose();
 
             // Dispose post-processing
             composer.dispose();
