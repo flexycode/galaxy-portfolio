@@ -37,6 +37,10 @@
       --galaxy-blue: 210 100% 50%;
       --galaxy-purple: 270 100% 50%;
 
+      --space-void: 222.2 84% 4.9%;
+      --nebula-cyan: 190 90% 50%;
+      --starlight: 210 40% 98%;
+
       --radius: 0.5rem;
     }
 
@@ -71,6 +75,10 @@
 
       --galaxy-blue: 210 100% 50%;
       --galaxy-purple: 270 100% 50%;
+
+      --space-void: 222.2 84% 4.9%;
+      --nebula-cyan: 190 90% 50%;
+      --starlight: 210 40% 98%;
     }
   }
 

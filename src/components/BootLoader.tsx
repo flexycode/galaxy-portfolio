@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import anime from "animejs";
 
 interface BootLoaderProps {
     onComplete?: () => void;
@@ -22,8 +23,6 @@ const BootLoader: React.FC<BootLoaderProps> = ({ onComplete }) => {
     const [visibleMessages, setVisibleMessages] = useState<string[]>([]);
     const [isComplete, setIsComplete] = useState(false);
     const [isFadingOut, setIsFadingOut] = useState(false);
-    const messageIndexRef = useRef(0);
-    const timerRef = useRef<ReturnType<typeof setInterval>>();
 
     // Listen for texture loading progress from InterstellarBackground
     useEffect(() => {
@@ -38,36 +37,51 @@ const BootLoader: React.FC<BootLoaderProps> = ({ onComplete }) => {
         return () => window.removeEventListener("texture-progress", handleProgress);
     }, [progress]);
 
-    // Drip-feed boot messages
+    // Drip-feed boot messages using anime.timeline
     useEffect(() => {
-        timerRef.current = setInterval(() => {
-            if (messageIndexRef.current < BOOT_MESSAGES.length) {
-                setVisibleMessages((prev) => [
-                    ...prev,
-                    BOOT_MESSAGES[messageIndexRef.current],
-                ]);
-                messageIndexRef.current += 1;
-            }
-        }, 350);
+        const tl = anime.timeline({ easing: 'linear' });
 
-        return () => clearInterval(timerRef.current);
+        BOOT_MESSAGES.forEach((msg) => {
+            tl.add({
+                targets: {},
+                duration: 350,
+                begin: () => {
+                    setVisibleMessages((prev) => {
+                        if (!prev.includes(msg)) return [...prev, msg];
+                        return prev;
+                    });
+                }
+            });
+        });
+
+        return () => {
+            tl.pause();
+        };
     }, []);
 
-    // Auto-complete after all messages shown + progress >= 1
+    // Auto-complete after all messages shown + progress >= 0.9
     useEffect(() => {
         if (
-            messageIndexRef.current >= BOOT_MESSAGES.length &&
+            visibleMessages.length >= BOOT_MESSAGES.length &&
             progress >= 0.9 &&
             !isComplete
         ) {
-            const timer = setTimeout(() => {
-                setIsComplete(true);
-                setIsFadingOut(true);
-                setTimeout(() => {
-                    onComplete?.();
-                }, 800); // Wait for fade-out
-            }, 600);
-            return () => clearTimeout(timer);
+            anime.timeline()
+                .add({
+                    targets: {},
+                    duration: 600,
+                    complete: () => {
+                        setIsComplete(true);
+                        setIsFadingOut(true);
+                    }
+                })
+                .add({
+                    targets: {},
+                    duration: 800,
+                    complete: () => {
+                        onComplete?.();
+                    }
+                });
         }
     }, [visibleMessages.length, progress, isComplete, onComplete]);
 

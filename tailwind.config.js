@@ -55,6 +55,13 @@ module.exports = {
           blue: "hsl(var(--galaxy-blue))",
           purple: "hsl(var(--galaxy-purple))",
         },
+        space: {
+          void: "hsl(var(--space-void))",
+        },
+        nebula: {
+          cyan: "hsl(var(--nebula-cyan))",
+        },
+        starlight: "hsl(var(--starlight))",
       },
       borderRadius: {
         lg: "var(--radius)",

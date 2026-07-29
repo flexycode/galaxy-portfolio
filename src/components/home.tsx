@@ -7,6 +7,7 @@ import BlogSection from "./BlogSection";
 import GlowCursor from "./GlowCursor";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react";
+import anime from "animejs";
 
 const Home = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
@@ -26,6 +27,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       <GlowCursor />
+      <SectionWipeOverlay />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
@@ -134,6 +136,51 @@ const Home = () => {
       </div>
     </div>
   );
+};
+
+const SectionWipeOverlay = () => {
+    const overlayRef = React.useRef<HTMLDivElement>(null);
+    const [activeSection, setActiveSection] = React.useState<string | null>(null);
+
+    React.useEffect(() => {
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (prefersReducedMotion) return;
+
+        const sections = document.querySelectorAll('section[id]');
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.id;
+                    setActiveSection(prev => {
+                        if (prev && prev !== id && overlayRef.current) {
+                            // Hyperspace flash wipe
+                            anime({
+                                targets: overlayRef.current,
+                                opacity: [0, 0.5, 0],
+                                scale: [0.5, 3],
+                                duration: 800,
+                                easing: 'easeOutCubic'
+                            });
+                        }
+                        return id;
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        sections.forEach(s => observer.observe(s));
+        
+        return () => observer.disconnect();
+    }, []);
+
+    return (
+        <div 
+            ref={overlayRef} 
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-screen h-screen rounded-full pointer-events-none z-[60] bg-cyan-400 mix-blend-screen"
+            style={{ opacity: 0, transform: 'scale(0) translate(-50%, -50%)' }}
+        />
+    );
 };
 
 const NavItem = ({
