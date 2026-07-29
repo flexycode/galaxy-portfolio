@@ -6,6 +6,7 @@ import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { motion } from "framer-motion";
 import { Download, ExternalLink } from "lucide-react";
+import anime from "animejs";
 
 interface SkillType {
   name: string;
@@ -35,6 +36,81 @@ interface TechCredentialsProps {
   certifications?: CertificationType[];
   cvLink?: string;
 }
+
+const SkillBar = ({ skill, index }: { skill: SkillType, index: number }) => {
+  const barRef = React.useRef<HTMLDivElement>(null);
+  const textRef = React.useRef<HTMLSpanElement>(null);
+  const [hasAnimated, setHasAnimated] = React.useState(false);
+
+  React.useEffect(() => {
+    if (!barRef.current || !textRef.current || hasAnimated) return;
+    
+    // Respect reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+       barRef.current.style.width = `${skill.level}%`;
+       textRef.current.innerHTML = `${skill.level}%`;
+       return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting && !hasAnimated) {
+        setHasAnimated(true);
+        
+        anime({
+          targets: barRef.current,
+          width: [`0%`, `${skill.level}%`],
+          easing: 'easeOutElastic(1, .8)',
+          duration: 1500,
+          delay: index * 50
+        });
+        
+        const dummy = { val: 0 };
+        anime({
+          targets: dummy,
+          val: skill.level,
+          easing: 'easeOutExpo',
+          duration: 1500,
+          delay: index * 50,
+          update: () => {
+            if (textRef.current) {
+              textRef.current.innerHTML = `${Math.round(dummy.val)}%`;
+            }
+          }
+        });
+        
+        observer.disconnect();
+      }
+    }, { threshold: 0.1 });
+    
+    observer.observe(barRef.current);
+    return () => observer.disconnect();
+  }, [skill.level, index, hasAnimated]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5 }}
+      className="relative"
+    >
+      <div className="flex justify-between mb-1">
+        <span className="font-medium">{skill.name}</span>
+        <span ref={textRef} className="text-blue-300">0%</span>
+      </div>
+      <div className="relative h-2 w-full bg-gray-800 rounded-full overflow-hidden">
+        <div
+          ref={barRef}
+          className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
+          style={{ width: "0%" }}
+        >
+          <div className="absolute inset-0 bg-white opacity-30 animate-pulse"></div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
 
 const TechCredentials: React.FC<TechCredentialsProps> = ({
   skills = [
@@ -203,26 +279,7 @@ const TechCredentials: React.FC<TechCredentialsProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {filteredSkills.map((skill, index) => (
-                <motion.div
-                  key={skill.name}
-                  initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                  className="relative"
-                >
-                  <div className="flex justify-between mb-1">
-                    <span className="font-medium">{skill.name}</span>
-                    <span className="text-blue-300">{skill.level}%</span>
-                  </div>
-                  <div className="relative h-2 w-full bg-gray-800 rounded-full overflow-hidden">
-                    <div
-                      className="absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500"
-                      style={{ width: `${skill.level}%` }}
-                    >
-                      <div className="absolute inset-0 bg-white opacity-30 animate-pulse"></div>
-                    </div>
-                  </div>
-                </motion.div>
+                <SkillBar key={skill.name} skill={skill} index={index} />
               ))}
             </div>
           </TabsContent>

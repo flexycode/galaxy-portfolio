@@ -25,7 +25,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
   const [btnPosition, setBtnPosition] = useState({ x: 0, y: 0 });
 
   return (
-    <div className="relative min-h-screen w-full overflow-hidden bg-black text-white">
+    <div className="relative min-h-screen w-full overflow-hidden bg-space-void text-starlight">
       {/* Animated background with particles */}
       <div className="absolute inset-0 z-0">
         <InterstellarBackground />
@@ -42,13 +42,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({
             viewport={{ once: true, amount: 0.3 }}
             transition={{ duration: 0.8 }}
           >
-            <h1 className="mb-4 text-4xl font-bold tracking-tight text-cyan-400 md:text-5xl lg:text-6xl">
+            <h1 className="mb-4 text-4xl font-bold tracking-tight text-nebula-cyan md:text-5xl lg:text-6xl">
               {name}
             </h1>
             <h2 className="mb-6 text-xl font-medium text-cyan-200 md:text-2xl">
               {title}
             </h2>
-            <p className="mb-8 max-w-lg text-gray-300">{bio}</p>
+            <p className="mb-8 max-w-lg text-starlight opacity-80">{bio}</p>
             <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
               <motion.div
                 animate={{ x: btnPosition.x, y: btnPosition.y }}
@@ -64,7 +64,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
               >
                 <Button
                   onClick={onCtaClick}
-                  className="bg-gradient-to-r from-cyan-500 to-blue-600 text-white hover:from-cyan-600 hover:to-blue-700"
+                  className="bg-gradient-to-r from-nebula-cyan to-blue-600 text-white hover:from-cyan-600 hover:to-blue-700"
                   size="lg"
                 >
                   {ctaText}
@@ -76,7 +76,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="rounded-full bg-gray-800 p-2 text-starlight transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-nebula-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-space-void"
                 >
                   <span className="sr-only">Flexyledger GitHub</span>
                   <Github size={20} aria-hidden="true" />
@@ -86,7 +86,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="rounded-full bg-gray-800 p-2 text-purple-400 transition-colors hover:bg-gray-700 hover:text-purple-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-purple-400 focus-visible:ring-offset-2 focus-visible:ring-offset-space-void"
                 >
                   <span className="sr-only">Flexycode GitHub</span>
                   <Github size={20} aria-hidden="true" />
@@ -96,7 +96,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="rounded-full bg-gray-800 p-2 text-gray-300 transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
+                  className="rounded-full bg-gray-800 p-2 text-starlight transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-nebula-cyan focus-visible:ring-offset-2 focus-visible:ring-offset-space-void"
                 >
                   <span className="sr-only">LinkedIn Profile</span>
                   <Linkedin size={20} aria-hidden="true" />

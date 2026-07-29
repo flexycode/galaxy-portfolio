@@ -132,6 +132,14 @@ const InterstellarBackground = () => {
             window.addEventListener('mousemove', handleMouseMove);
         }
 
+        // --- Scroll State ---
+        let scrollProgress = 0;
+        const handleScroll = () => {
+            const maxScroll = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+            scrollProgress = Math.min(1, Math.max(0, window.scrollY / maxScroll));
+        };
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
         // --- Texture Cache ---
         // Every texture is loaded once and reused. Per-instance UV offsets use texture.clone()
         // which shares the underlying Source (image data) but allows unique offset/repeat.
@@ -473,6 +481,27 @@ const InterstellarBackground = () => {
         midStars.renderOrder = -2;
         scene.add(midStars);
 
+        // Constellations (Phase 9)
+        const MAX_LINES = 1000;
+        const CONSTELLATION_NODES = Math.min(midStarCount, prefersReducedMotion ? 0 : 250);
+        const constellationGeo = new THREE.BufferGeometry();
+        const constellationPositions = new Float32Array(MAX_LINES * 2 * 3); 
+        const constellationColors = new Float32Array(MAX_LINES * 2 * 3);
+        constellationGeo.setAttribute('position', new THREE.BufferAttribute(constellationPositions, 3));
+        constellationGeo.setAttribute('color', new THREE.BufferAttribute(constellationColors, 3));
+        const constellationMat = new THREE.LineBasicMaterial({
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.25,
+            blending: THREE.AdditiveBlending,
+            depthWrite: false
+        });
+        const constellationLines = new THREE.LineSegments(constellationGeo, constellationMat);
+        constellationLines.renderOrder = -1;
+        if (!prefersReducedMotion) {
+            scene.add(constellationLines);
+        }
+
         // Layer 3: Near — narrow forward cone, larger, faster, sparser
         const nearStarCount = isLowEnd ? 150 : 300;
         const nearStarGeo = new THREE.BufferGeometry();
@@ -797,24 +826,31 @@ const InterstellarBackground = () => {
                 giant.mesh.position.y = giant.baseY + Math.cos(time * giant.driftFreqY) * giant.driftAmpY;
             }
 
+            // Subtle bloom breathing based on scroll
+            bloomPass.strength = 0.4 + (scrollProgress * 0.15);
+
+            // Target max opacity dims as you scroll down
+            const targetMaxOpacity = Math.max(0.15, 0.6 - (scrollProgress * 0.45));
+
             switch (galaxyState) {
                 case 'FADE_IN':
-                    if (galaxyMaterial.opacity < 0.6) {
-                        galaxyMaterial.opacity += delta / FADE_DURATION * 0.6; // Fade to 0.6
+                    if (galaxyMaterial.opacity < targetMaxOpacity) {
+                        galaxyMaterial.opacity += delta / FADE_DURATION * 0.6; 
                     } else {
-                        galaxyMaterial.opacity = 0.6;
+                        galaxyMaterial.opacity = targetMaxOpacity;
                         galaxyState = 'VISIBLE';
                         galaxyTimer = 0;
                     }
                     break;
                 case 'VISIBLE':
+                    galaxyMaterial.opacity = targetMaxOpacity;
                     if (galaxyTimer > VISIBLE_DURATION) {
                         galaxyState = 'FADE_OUT';
                     }
                     break;
                 case 'FADE_OUT':
                     if (galaxyMaterial.opacity > 0) {
-                        galaxyMaterial.opacity -= delta / FADE_DURATION * 0.6; // Fade from 0.6 to 0
+                        galaxyMaterial.opacity -= delta / FADE_DURATION * 0.6; 
                     } else {
                         galaxyMaterial.opacity = 0;
                         galaxyState = 'SWAP';
@@ -834,9 +870,12 @@ const InterstellarBackground = () => {
             mouseCurrent.x += (mouseTarget.x - mouseCurrent.x) * 0.05;
             mouseCurrent.y += (mouseTarget.y - mouseCurrent.y) * 0.05;
 
+            // Scroll bias: push camera down slightly as we scroll down the page
+            const scrollBiasY = scrollProgress * 20;
+
             camera.position.x = Math.sin(time * 0.0005) * cameraAmplitude + mouseCurrent.x * parallaxStrength;
-            camera.position.y = Math.cos(time * 0.0003) * cameraAmplitude - mouseCurrent.y * parallaxStrength;
-            camera.lookAt(0, 0, -600);
+            camera.position.y = Math.cos(time * 0.0003) * cameraAmplitude - mouseCurrent.y * parallaxStrength - scrollBiasY;
+            camera.lookAt(0, -scrollBiasY * 0.5, -600);
 
             // 3. Move Stars — three layers with twinkle
             // Distant layer: spherically distributed, very slow, with twinkle
@@ -885,6 +924,52 @@ const InterstellarBackground = () => {
                 }
             }
             nearStarGeo.attributes.position.needsUpdate = true;
+
+            // Constellation network updates
+            if (!prefersReducedMotion && CONSTELLATION_NODES > 0) {
+                let lineIndex = 0;
+                const maxDistSq = 200 * 200;
+                // Only check a subset of mid stars for constellations
+                for (let i = 0; i < CONSTELLATION_NODES; i++) {
+                    const idx1 = i * 3;
+                    const x1 = midPos[idx1], y1 = midPos[idx1 + 1], z1 = midPos[idx1 + 2];
+                    
+                    for (let j = i + 1; j < CONSTELLATION_NODES; j++) {
+                        const idx2 = j * 3;
+                        const x2 = midPos[idx2], y2 = midPos[idx2 + 1], z2 = midPos[idx2 + 2];
+                        
+                        const dx = x2 - x1;
+                        const dy = y2 - y1;
+                        const dz = z2 - z1;
+                        const distSq = dx*dx + dy*dy + dz*dz;
+                        
+                        if (distSq < maxDistSq && lineIndex < MAX_LINES) {
+                            const alpha = 1.0 - (distSq / maxDistSq);
+                            
+                            const pIdx = lineIndex * 6;
+                            constellationPositions[pIdx] = x1;
+                            constellationPositions[pIdx+1] = y1;
+                            constellationPositions[pIdx+2] = z1;
+                            constellationPositions[pIdx+3] = x2;
+                            constellationPositions[pIdx+4] = y2;
+                            constellationPositions[pIdx+5] = z2;
+                            
+                            const colorVal = 0.5 * alpha;
+                            constellationColors[pIdx] = colorVal * 0.5;
+                            constellationColors[pIdx+1] = colorVal * 0.8;
+                            constellationColors[pIdx+2] = colorVal;
+                            constellationColors[pIdx+3] = colorVal * 0.5;
+                            constellationColors[pIdx+4] = colorVal * 0.8;
+                            constellationColors[pIdx+5] = colorVal;
+                            
+                            lineIndex++;
+                        }
+                    }
+                }
+                constellationGeo.setDrawRange(0, lineIndex * 2);
+                constellationGeo.attributes.position.needsUpdate = true;
+                constellationGeo.attributes.color.needsUpdate = true;
+            }
 
             // 4. Hero Objects Logic
             if (time - lastHeroSpawn > HERO_INTERVAL) {
@@ -1089,6 +1174,8 @@ const InterstellarBackground = () => {
             midStarMat.dispose();
             nearStarGeo.dispose();
             nearStarMat.dispose();
+            constellationGeo.dispose();
+            constellationMat.dispose();
 
             // Dispose post-processing
             composer.dispose();
@@ -1106,6 +1193,11 @@ const InterstellarBackground = () => {
                 containerRef.current.removeChild(renderer.domElement);
             }
             renderer.dispose();
+            
+            // Clean up event listeners
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('scroll', handleScroll);
+            document.removeEventListener('visibilitychange', handleVisibility);
         };
     }, []);
 
