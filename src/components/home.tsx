@@ -96,7 +96,7 @@ const Home = () => {
       {/* Main Content */}
       <main>
         <section id="hero">
-          <HeroSection />
+          <HeroSection onCtaClick={() => scrollToSection("projects")} />
         </section>
 
         <section id="projects" className="py-16">
